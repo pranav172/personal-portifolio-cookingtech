@@ -1,26 +1,101 @@
 @import "tailwindcss";
 
+/* Sky + Ink Theme */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --muted: #475569;
+  --accent: #38BDF8;
+}
+
+.dark {
+  --background: #020617;
+  --foreground: #E5E7EB;
+  --muted: #9CA3AF;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Smooth theme transition */
+html {
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+/* Link styles with subtle hover animation */
+a.link {
+  color: var(--accent);
+  text-decoration: none;
+  position: relative;
+}
+
+a.link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 200ms ease;
+}
+
+a.link:hover::after {
+  width: 100%;
+}
+
+/* Navigation link styles */
+a.nav-link {
+  color: var(--foreground);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+a.nav-link:hover {
+  color: var(--accent);
+}
+
+/* Arrow link styles */
+a.arrow-link {
+  color: var(--foreground);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 200ms ease, transform 200ms ease;
+}
+
+a.arrow-link:hover {
+  color: var(--accent);
+}
+
+a.arrow-link:hover .arrow {
+  transform: translateX(4px);
+}
+
+.arrow {
+  transition: transform 200ms ease;
+}
+
+/* Muted text */
+.text-muted {
+  color: var(--muted);
+}
+
+/* Selection color */
+::selection {
+  background: var(--accent);
+  color: var(--background);
 }
