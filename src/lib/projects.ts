@@ -5,30 +5,33 @@ export interface Project {
   tech: string[];
   github?: string;
   live?: string;
+  featured?: boolean;
 }
 
 export const projects: Project[] = [
   {
-    id: "violence-detection",
-    title: "Violence Detection in Videos",
-    description: "CNN-based pipeline for real-time violence detection with staged alarms. Explored data imbalance, false positives, and deployment challenges.",
-    tech: ["Python", "TensorFlow", "OpenCV"],
-    github: "https://github.com/pranavraj/violence-detection",
-    live: "https://violence-detection-demo.vercel.app",
-  },
-  {
-    id: "ml-experiments",
-    title: "ML Experiments",
-    description: "Collection of experiments with transformers, CNNs, and reinforcement learning. Documented attention mechanisms and training dynamics.",
-    tech: ["Python", "PyTorch", "NumPy"],
-    github: "https://github.com/pranavraj/ml-experiments",
-  },
-  {
     id: "backend-systems",
     title: "Backend Systems",
-    description: "Various backend services exploring database design, caching patterns, and API architecture. Documented performance bottlenecks and trade-offs.",
+    description: "Designed and implemented backend services exploring database design, caching strategies, and API architecture, with a focus on performance trade-offs and scalability.",
     tech: ["Node.js", "PostgreSQL", "Redis"],
     github: "https://github.com/pranavraj/backend-systems",
     live: "https://api-demo.pranavraj.dev",
   },
+  {
+    id: "violence-detection",
+    title: "Violence Detection in Videos",
+    description: "Built a CNN-based real-time violence detection pipeline with staged alarms, addressing data imbalance, false positives, and deployment constraints.",
+    tech: ["Python", "TensorFlow", "OpenCV"],
+    github: "https://github.com/pranavraj/violence-detection",
+    live: "https://violence-detection-demo.vercel.app",
+    featured: true,
+  },
+  {
+    id: "ml-experiments",
+    title: "ML Experiments",
+    description: "A collection of experiments with transformers, CNNs, and reinforcement learning, documenting attention mechanisms and training dynamics.",
+    tech: ["Python", "PyTorch", "NumPy"],
+    github: "https://github.com/pranavraj/ml-experiments",
+  },
 ];
+

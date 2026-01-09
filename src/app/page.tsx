@@ -1,11 +1,12 @@
 import Link from "next/link";
 
 export default function Home() {
-  const skills = [
-    "Python", "JavaScript", "TypeScript", "C++",
-    "TensorFlow", "PyTorch", "React", "Next.js",
-    "Node.js", "PostgreSQL", "MongoDB", "Redis",
-  ];
+  const skillGroups = {
+    "Languages": ["Python", "C++", "JavaScript", "TypeScript"],
+    "ML/DL": ["PyTorch", "TensorFlow"],
+    "Web": ["React", "Next.js", "Node.js"],
+    "Databases": ["PostgreSQL", "MongoDB", "Redis"],
+  };
 
   const codingProfiles = [
     { name: "LeetCode", url: "https://leetcode.com/pranavraj" },
@@ -16,37 +17,86 @@ export default function Home() {
   return (
     <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-2xl mx-auto">
       {/* Name */}
-      <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-4 sm:mb-6">Pranav Raj</h1>
+      <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-2">Pranav Raj</h1>
       
-      {/* About */}
-      <p className="text-base sm:text-lg leading-relaxed text-muted max-w-md mb-10 sm:mb-12">
-        Building experiments in machine learning, software systems, and solving 
-        problems through algorithms. Learning by building and breaking systems.
+      {/* Current Focus Tag */}
+      <p className="text-xs sm:text-sm text-muted/80 mb-6 sm:mb-8">
+        Currently focused on Software Engineering & DSA
+      </p>
+      
+      {/* Hero Bio - 2 lines max, increased line height, reduced opacity */}
+      <p className="text-base sm:text-lg leading-loose text-muted/80 max-w-xl mb-6 sm:mb-8">
+        Computer science student building reliable software systems.<br />
+        Currently focused on software engineering and algorithmic problem solving,
+        with long-term work in deep learning and NLP.
       </p>
 
-      {/* Skills - Clickable to filter projects */}
+      {/* Primary Links - GitHub first */}
       <section className="mb-10 sm:mb-12">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-3 sm:mb-4">
+        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-3">
+          Links
+        </h2>
+        <div className="flex flex-wrap gap-4 sm:gap-6">
+          <a
+            href="https://github.com/pranavraj"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://drive.google.com/file/d/1QEnRVqmuc85YGMiui0sGQcS6g_M5nwDN/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
+          >
+            Resume
+          </a>
+          <a
+            href="https://linkedin.com/in/pranavraj"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
+          >
+            LinkedIn
+          </a>
+        </div>
+      </section>
+
+      {/* Skills - Grouped by category */}
+      <section className="mb-10 sm:mb-12">
+        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-4">
           Skills
         </h2>
-        <div className="flex flex-wrap gap-x-3 gap-y-2 sm:gap-x-4">
-          {skills.map((skill) => (
-            <Link
-              key={skill}
-              href={`/work?skill=${encodeURIComponent(skill)}`}
-              className="text-sm text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-            >
-              {skill}
-            </Link>
+        <div className="space-y-2">
+          {Object.entries(skillGroups).map(([category, skills]) => (
+            <div key={category} className="text-sm sm:text-base">
+              <span className="text-muted/70">{category}:</span>{" "}
+              {skills.map((skill, index) => (
+                <span key={skill}>
+                  <Link
+                    href={`/work?skill=${encodeURIComponent(skill)}`}
+                    className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
+                  >
+                    {skill}
+                  </Link>
+                  {index < skills.length - 1 && <span className="text-muted/50"> · </span>}
+                </span>
+              ))}
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Coding Profiles */}
+      {/* Coding Profiles - With intent descriptor */}
       <section className="mb-10 sm:mb-12">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-3 sm:mb-4">
+        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-2">
           Coding Profiles
         </h2>
+        <p className="text-sm text-muted/70 mb-3">
+          Algorithmic problem solving and competitive practice
+        </p>
         <div className="flex flex-wrap gap-4 sm:gap-6">
           {codingProfiles.map((profile) => (
             <a
@@ -62,20 +112,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Resume */}
-      <section>
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-3 sm:mb-4">
-          Resume
-        </h2>
-        <a
-          href="https://drive.google.com/file/d/1QEnRVqmuc85YGMiui0sGQcS6g_M5nwDN/view?usp=sharing"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-        >
-          View / Download
-        </a>
-      </section>
+
     </div>
   );
 }
+
