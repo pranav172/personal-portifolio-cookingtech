@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-2xl mx-auto min-h-[55vh] sm:min-h-[60vh]">
+    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto min-h-[55vh] sm:min-h-[60vh]">
       <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-2 sm:mb-3">Contact</h1>
       
       {/* Context line */}

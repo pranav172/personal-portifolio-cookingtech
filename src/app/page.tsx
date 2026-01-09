@@ -15,7 +15,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-2xl mx-auto">
+    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto">
       {/* Name */}
       <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-2">Pranav Raj</h1>
       
@@ -73,17 +73,9 @@ export default function Home() {
           {Object.entries(skillGroups).map(([category, skills]) => (
             <div key={category} className="text-sm sm:text-base">
               <span className="text-muted/70">{category}:</span>{" "}
-              {skills.map((skill, index) => (
-                <span key={skill}>
-                  <Link
-                    href={`/work?skill=${encodeURIComponent(skill)}`}
-                    className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-                  >
-                    {skill}
-                  </Link>
-                  {index < skills.length - 1 && <span className="text-muted/50"> · </span>}
-                </span>
-              ))}
+              <span className="text-foreground">
+                {skills.join(" · ")}
+              </span>
             </div>
           ))}
         </div>

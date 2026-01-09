@@ -2,8 +2,8 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="py-6 sm:py-8 px-4 sm:px-6 max-w-2xl mx-auto">
-      <p className="text-muted/60 text-xs">
+    <footer className="mt-16 sm:mt-24 py-8 sm:py-12 px-4 sm:px-6 max-w-3xl mx-auto">
+      <p className="text-muted/30 text-[11px]">
         © {currentYear} Pranav Raj
       </p>
     </footer>

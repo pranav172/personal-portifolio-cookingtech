@@ -13,7 +13,7 @@ function ProjectsList() {
     : projects;
 
   return (
-    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-2xl mx-auto">
+    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto">
       <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-2 sm:mb-3">Projects</h1>
       
       {skillFilter ? (
@@ -38,7 +38,7 @@ function ProjectsList() {
               <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">
                 {project.title}
                 {project.featured && (
-                  <span className="text-muted/60 text-sm font-normal ml-2">· Featured</span>
+                  <span className="text-muted/40 text-xs font-normal ml-2">Featured</span>
                 )}
               </h2>
               
@@ -64,6 +64,16 @@ function ProjectsList() {
                     → GitHub
                   </a>
                 )}
+                {project.kaggle && (
+                  <a 
+                    href={project.kaggle}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
+                  >
+                    → Kaggle
+                  </a>
+                )}
                 {project.live && (
                   <a 
                     href={project.live}
@@ -71,7 +81,17 @@ function ProjectsList() {
                     rel="noopener noreferrer"
                     className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
                   >
-                    → Live Demo
+                    → Live API
+                  </a>
+                )}
+                {project.docs && (
+                  <a 
+                    href={project.docs}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
+                  >
+                    → API Docs
                   </a>
                 )}
               </div>
@@ -86,7 +106,7 @@ function ProjectsList() {
 export default function WorkPage() {
   return (
     <Suspense fallback={
-      <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-2xl mx-auto">
+      <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-4">Projects</h1>
         <p className="text-muted">Loading...</p>
       </div>
