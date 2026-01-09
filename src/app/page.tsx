@@ -43,7 +43,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
           >
-            GitHub
+            → GitHub
           </a>
           <a
             href="https://drive.google.com/file/d/1QEnRVqmuc85YGMiui0sGQcS6g_M5nwDN/view?usp=sharing"
@@ -51,7 +51,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
           >
-            Resume
+            → Resume
           </a>
           <a
             href="https://www.linkedin.com/in/pranav-raj-163230256/"
@@ -59,7 +59,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
           >
-            LinkedIn
+            → LinkedIn
           </a>
         </div>
       </section>
@@ -98,7 +98,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
             >
-              {profile.name}
+              → {profile.name}
             </a>
           ))}
         </div>

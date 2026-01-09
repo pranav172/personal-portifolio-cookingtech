@@ -42,7 +42,7 @@ export default function ContactPage() {
               rel="noopener noreferrer"
               className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
             >
-              LinkedIn
+              → LinkedIn
             </a>
             <a
               href="https://x.com/Pranav_raj_18"
@@ -50,7 +50,7 @@ export default function ContactPage() {
               rel="noopener noreferrer"
               className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
             >
-              X (Twitter)
+              → X (Twitter)
             </a>
           </div>
         </section>
