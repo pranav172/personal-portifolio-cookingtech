@@ -1,33 +1,56 @@
-# Personal Portfolio
+# 🚀 Pranav Raj - Personal Portfolio
 
-A minimal, fast portfolio built with Next.js, TypeScript, and Tailwind CSS.
+[![Live Site](https://img.shields.io/badge/Live-pranavraj.xyz-00C853?style=for-the-badge&logo=vercel&logoColor=white)](https://pranavraj.xyz)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org/)
 
-## Features
+A minimal, fast, and elegant developer portfolio built with Next.js 15, TypeScript, and Tailwind CSS.
 
-- ⚡ **Fast** - Static generation, no heavy dependencies
-- 🎨 **Minimal Design** - Clean typography, uniform colors
-- 🌗 **Dark/Light Mode** - Toggle with smooth transitions
-- 📱 **Responsive** - Works on all devices
-- 🔗 **Clickable Skills** - Filter projects by technology
-- 🎯 **SEO Ready** - Proper meta tags and structure
+🔗 **Live Site:** [pranavraj.xyz](https://pranavraj.xyz)
 
-## Pages
+---
 
-- **Home** - Introduction, skills, coding profiles, resume
-- **Projects** - Work with tech stack and links
-- **Blogs** - Writing (coming soon)
-- **Contact** - Email and social links
+## ✨ Features
 
-## Tech Stack
+- ⚡ **Blazing Fast** - Static generation with Next.js App Router
+- 🎨 **Minimal Design** - Clean typography, cohesive color scheme
+- 🌗 **Dark/Light Mode** - Smooth theme transitions
+- 📱 **Fully Responsive** - Optimized for all screen sizes
+- 🔗 **Interactive Skills** - Click to filter projects by technology
+- 🎯 **SEO Optimized** - Proper meta tags and semantic HTML
 
-- Next.js 15 (App Router)
-- TypeScript
-- Tailwind CSS
-- Static Export
+---
 
-## Getting Started
+## 📄 Pages
+
+| Page | Description |
+|------|-------------|
+| **Home** | Introduction, skills, coding profiles, and resume link |
+| **Projects** | Featured work with tech stack, GitHub links, and live demos |
+| **Blogs** | Technical writing and articles |
+| **Contact** | Email and social links |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Deployment:** Vercel
+- **Domain:** pranavraj.xyz
+
+---
+
+## 🚀 Getting Started
 
 ```bash
+# Clone the repository
+git clone https://github.com/pranav172/personal-portifolio-cookingtech.git
+
+# Navigate to the project
+cd personal-portifolio-cookingtech
+
 # Install dependencies
 npm install
 
@@ -38,19 +61,46 @@ npm run dev
 npm run build
 ```
 
-## Customization
+---
 
-1. Update your info in `src/app/page.tsx`
-2. Add projects in `src/lib/projects.ts`
-3. Update links in `src/app/contact/page.tsx`
-4. Update resume link throughout the app
+## 📁 Project Structure
 
-## Deploy
-
-```bash
-vercel deploy
+```
+src/
+├── app/
+│   ├── page.tsx          # Home page
+│   ├── work/             # Projects page
+│   ├── writing/          # Blog pages
+│   ├── contact/          # Contact page
+│   └── layout.tsx        # Root layout
+├── components/
+│   ├── Nav.tsx           # Navigation
+│   ├── Footer.tsx        # Footer
+│   └── ThemeToggle.tsx   # Dark/Light mode toggle
+└── lib/
+    └── projects.ts       # Projects data
 ```
 
-## License
+---
 
-MIT
+## 🎨 Customization
+
+1. **Personal Info** - Update `src/app/page.tsx`
+2. **Projects** - Edit `src/lib/projects.ts`
+3. **Contact Links** - Modify `src/app/contact/page.tsx`
+4. **Resume** - Update the Google Drive link throughout
+
+---
+
+## 📬 Connect
+
+- 🌐 **Website:** [pranavraj.xyz](https://pranavraj.xyz)
+- 💼 **LinkedIn:** [pranav-raj-163230256](https://www.linkedin.com/in/pranav-raj-163230256/)
+- 🐦 **Twitter/X:** [@Pranav_raj_18](https://x.com/Pranav_raj_18)
+- 💻 **GitHub:** [pranav172](https://github.com/pranav172)
+
+---
+
+## 📝 License
+
+MIT © Pranav Raj
