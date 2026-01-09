@@ -9,9 +9,9 @@ export default function Home() {
   };
 
   const codingProfiles = [
-    { name: "LeetCode", url: "https://leetcode.com/pranavraj" },
-    { name: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/user/pranavraj" },
-    { name: "Codeforces", url: "https://codeforces.com/profile/pranavraj" },
+    { name: "LeetCode", url: "https://leetcode.com/u/cookingDSA/" },
+    { name: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/profile/rpranatxwq" },
+    { name: "Codeforces", url: "https://codeforces.com/profile/cookingDSA" },
   ];
 
   return (
@@ -38,7 +38,7 @@ export default function Home() {
         </h2>
         <div className="flex flex-wrap gap-4 sm:gap-6">
           <a
-            href="https://github.com/pranavraj"
+            href="https://github.com/pranav172"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
@@ -54,7 +54,7 @@ export default function Home() {
             Resume
           </a>
           <a
-            href="https://linkedin.com/in/pranavraj"
+            href="https://www.linkedin.com/in/pranav-raj-163230256/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"

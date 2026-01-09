@@ -34,7 +34,7 @@ export const projects: Project[] = [
     title: "Violence Detection in Videos (Deep Learning)",
     description: "Video classification pipeline using MobileNetV2 + Bi-LSTM for temporal dynamics. Achieves 94% accuracy with frame-level and full-video inference capabilities.",
     tech: ["Python", "TensorFlow", "Keras", "OpenCV", "NumPy", "Matplotlib"],
-    github: "https://github.com/pranav172/RealTimeVoilenceDetection/blob/main/real-time-violence-detection-mobilenet-bi-lstm.ipynb",
+    github: "https://github.com/pranav172/RealTimeVoilenceDetection/tree/main",
   },
 ];
 

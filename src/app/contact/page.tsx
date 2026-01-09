@@ -37,7 +37,7 @@ export default function ContactPage() {
           </h2>
           <div className="flex flex-wrap gap-4 sm:gap-6">
             <a
-              href="https://linkedin.com/in/pranavraj"
+              href="https://www.linkedin.com/in/pranav-raj-163230256/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
@@ -45,7 +45,7 @@ export default function ContactPage() {
               LinkedIn
             </a>
             <a
-              href="https://x.com/pranavraj"
+              href="https://x.com/Pranav_raj_18"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
