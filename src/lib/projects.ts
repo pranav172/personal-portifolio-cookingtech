@@ -12,6 +12,15 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "atsflow",
+    title: "ATSFlow (Resume Optimization Platform)",
+    description: "AI-powered resume optimization that beats applicant tracking systems. Features ATS scoring (0-100), keyword gap analysis, job description matching, and dual-AI optimization using Gemini + Groq for intelligent resume improvements.",
+    tech: ["Next.js", "TypeScript", "PostgreSQL", "Clerk Auth", "Gemini AI", "Groq/LLaMA", "Drizzle ORM", "TailwindCSS"],
+    github: "https://github.com/pranav172/ATSFlow",
+    live: "https://atsflow.vercel.app",
+    featured: true,
+  },
+  {
     id: "url-shortener",
     title: "Scalable URL Shortener (Backend System)",
     description: "Production-ready URL shortening backend built with FastAPI, PostgreSQL, and Redis. Features time-based link expiry, rate limiting, and graceful degradation for cache/database failures.",
