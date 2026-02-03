@@ -17,7 +17,7 @@ export const projects: Project[] = [
     description: "AI-powered resume optimization that beats applicant tracking systems. Features ATS scoring (0-100), keyword gap analysis, job description matching, and dual-AI optimization using Gemini + Groq for intelligent resume improvements.",
     tech: ["Next.js", "TypeScript", "PostgreSQL", "Clerk Auth", "Gemini AI", "Groq/LLaMA", "Drizzle ORM", "TailwindCSS"],
     github: "https://github.com/pranav172/ATSFlow",
-    live: "https://atsflow.vercel.app",
+    live: "https://ats-flow.vercel.app",
     featured: true,
   },
   {
