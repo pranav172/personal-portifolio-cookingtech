@@ -5,9 +5,11 @@ export function Nav() {
   const links = [
     { href: '/', label: 'Home' },
     { href: '/work', label: 'Projects' },
+    { href: '/fun', label: 'Fun' },
     { href: '/writing', label: 'Blogs' },
     { href: '/contact', label: 'Contact' },
   ];
+
 
   return (
     <nav className="relative py-4 px-4 sm:py-6 sm:px-6 max-w-3xl mx-auto">
