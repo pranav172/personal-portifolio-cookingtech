@@ -33,7 +33,7 @@ function ProjectsList() {
       ) : (
         <div className="space-y-8 sm:space-y-10">
           {filteredProjects.map((project) => (
-            <article key={project.id}>
+            <article key={project.id} className="card-lift">
               {/* Title with optional Featured label */}
               <h2 className="text-lg sm:text-xl font-semibold mb-1">
                 {project.title}

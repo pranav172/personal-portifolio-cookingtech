@@ -1,7 +1,12 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ThemeToggle } from './ThemeToggle';
 
 export function Nav() {
+  const pathname = usePathname();
+
   const links = [
     { href: '/', label: 'Home' },
     { href: '/work', label: 'Projects' },
@@ -9,6 +14,10 @@ export function Nav() {
     { href: '/writing', label: 'Blogs' },
     { href: '/contact', label: 'Contact' },
   ];
+
+  // Match active route: exact for '/', prefix match for others
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   return (
     <nav className="relative py-4 px-4 sm:py-6 sm:px-6 max-w-3xl mx-auto">
@@ -19,7 +28,11 @@ export function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-semibold text-foreground hover:text-accent transition-colors duration-200"
+              className={`text-sm font-semibold transition-colors duration-200 ${
+                isActive(link.href)
+                  ? 'nav-active'
+                  : 'text-foreground hover:text-accent'
+              }`}
             >
               {link.label}
             </Link>
@@ -32,7 +45,11 @@ export function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-xs font-semibold text-foreground hover:text-accent transition-colors duration-200"
+              className={`text-xs font-semibold transition-colors duration-200 ${
+                isActive(link.href)
+                  ? 'nav-active'
+                  : 'text-foreground hover:text-accent'
+              }`}
             >
               {link.label}
             </Link>

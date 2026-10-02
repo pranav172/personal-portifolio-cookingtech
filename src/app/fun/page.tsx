@@ -22,7 +22,7 @@ export default function FunPage() {
         {funProjects.map((project, i) => (
           <article
             key={project.id}
-            className={`animate-in delay-${Math.min(i + 2, 6)}`}
+            className={`card-lift animate-in delay-${Math.min(i + 2, 6)}`}
           >
             {/* Name */}
             <h2 className="text-base sm:text-lg font-semibold mb-1">

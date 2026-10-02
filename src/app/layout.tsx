@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { PageProgress } from "@/components/PageProgress";
 
 export const metadata: Metadata = {
   title: "Pranav Raj",
@@ -25,8 +26,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased font-sans">
         <ThemeProvider>
+          {/* Thin accent bar at the very top on every route change */}
+          <PageProgress />
           <Nav />
-          <main>{children}</main>
+          {/* page-animate: 350ms opacity+translateY fade — compositor only */}
+          <main className="page-animate">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>
