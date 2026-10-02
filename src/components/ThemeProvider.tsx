@@ -7,22 +7,25 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    
-    // Check localStorage - default to light if no preference saved
     const savedTheme = localStorage.getItem('theme');
     
     if (savedTheme === 'dark') {
       document.documentElement.classList.add('dark');
-    } else {
-      // Default to light theme
+    } else if (savedTheme === 'light') {
       document.documentElement.classList.remove('dark');
-      if (!savedTheme) {
+    } else {
+      // Default to dark mode or system preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light');
       }
     }
   }, []);
 
-  // Prevent flash of wrong theme
   if (!mounted) {
     return <>{children}</>;
   }

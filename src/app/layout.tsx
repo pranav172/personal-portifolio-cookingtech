@@ -1,24 +1,28 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "Pranav Raj",
-  description: "I explore machine learning and software systems by building experiments and writing about what I learn over time.",
-  keywords: ["machine learning", "software engineering", "portfolio", "Pranav Raj"],
+  title: "Pranav Raj — Software Engineer | Backend & Distributed Systems",
+  description:
+    "Portfolio of Pranav Raj — B.Tech IT at Manipal University Jaipur. Specializing in deterministic AI gateways, distributed job orchestrators, and AI governance control planes.",
+  keywords: [
+    "Pranav Raj",
+    "Software Engineer",
+    "Backend Engineer",
+    "Distributed Systems",
+    "FastAPI",
+    "AI Governance",
+    "Codeforces Specialist",
+    "Manipal University Jaipur",
+  ],
   authors: [{ name: "Pranav Raj" }],
   openGraph: {
-    title: "Pranav Raj",
-    description: "I explore machine learning and software systems by building experiments and writing about what I learn over time.",
+    title: "Pranav Raj — Software Engineer",
+    description:
+      "Backend & Distributed Systems Engineer. Codeforces Specialist (1459). Builder of NIYAM, Blast Radius, and Atlas.",
     type: "website",
   },
 };
@@ -30,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} antialiased`}>
+      <body className="antialiased">
         <ThemeProvider>
           <Nav />
           <main>{children}</main>

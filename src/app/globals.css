@@ -1,17 +1,26 @@
 @import "tailwindcss";
 
-/* Sky + Ink Theme */
+/* Minimal Modern Palette — High-performance & Recruiter-Optimized */
 :root {
-  --background: #F8FAFC;
-  --foreground: #0F172A;
-  --muted: #475569;
-  --accent: #38BDF8;
+  --background: #fafafa;
+  --foreground: #09090b;
+  --muted: #52525b;
+  --accent: #059669;
+  --accent-soft: rgba(5, 150, 105, 0.08);
+  --border: #e4e4e7;
+  --card-bg: rgba(0, 0, 0, 0.02);
+  --card-border: rgba(0, 0, 0, 0.07);
 }
 
 .dark {
-  --background: #020617;
-  --foreground: #E5E7EB;
-  --muted: #9CA3AF;
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --muted: #a1a1aa;
+  --accent: #10b981;
+  --accent-soft: rgba(16, 185, 129, 0.12);
+  --border: #27272a;
+  --card-bg: rgba(255, 255, 255, 0.025);
+  --card-border: rgba(255, 255, 255, 0.08);
 }
 
 @theme inline {
@@ -19,22 +28,57 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-border: var(--border);
   --font-sans: var(--font-inter);
 }
 
-/* Smooth theme transition */
+/* Fast, smooth transitions */
 html {
-  transition: background-color 200ms ease, color 200ms ease;
+  transition: background-color 150ms ease, color 150ms ease;
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Link styles with subtle hover animation */
+/* Custom interactive classes */
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--foreground);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tag-badge-accent {
+  background-color: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--accent);
+}
+
+.card-minimal {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  transition: border-color 150ms ease, transform 150ms ease, background-color 150ms ease;
+}
+
+.card-minimal:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--card-border));
+}
+
+/* Link styles with clean underline hover */
 a.link {
   color: var(--accent);
   text-decoration: none;
@@ -49,62 +93,23 @@ a.link::after {
   width: 0;
   height: 1px;
   background: var(--accent);
-  transition: width 200ms ease;
+  transition: width 150ms ease;
 }
 
 a.link:hover::after {
   width: 100%;
 }
 
-/* Navigation link styles */
-a.nav-link {
-  color: var(--foreground);
-  text-decoration: none;
-  transition: color 200ms ease;
-}
-
-a.nav-link:hover {
-  color: var(--accent);
-}
-
-/* Arrow link styles */
-a.arrow-link {
-  color: var(--foreground);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: color 200ms ease, transform 200ms ease;
-}
-
-a.arrow-link:hover {
-  color: var(--accent);
-}
-
-a.arrow-link:hover .arrow {
-  transform: translateX(4px);
-}
-
-.arrow {
-  transition: transform 200ms ease;
-}
-
-/* Muted text */
-.text-muted {
-  color: var(--muted);
-}
-
-/* Selection color */
 ::selection {
   background: var(--accent);
-  color: var(--background);
+  color: #ffffff;
 }
 
-/* ── Animations ────────────────────────────────── */
+/* Zero-lag CSS animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -113,28 +118,25 @@ a.arrow-link:hover .arrow {
 }
 
 .animate-in {
-  animation: fadeInUp 0.45s ease both;
+  animation: fadeInUp 0.35s ease both;
   opacity: 0;
 }
 
-.delay-1 { animation-delay: 60ms; }
-.delay-2 { animation-delay: 120ms; }
-.delay-3 { animation-delay: 180ms; }
-.delay-4 { animation-delay: 240ms; }
-.delay-5 { animation-delay: 300ms; }
-.delay-6 { animation-delay: 360ms; }
+.delay-1 { animation-delay: 40ms; }
+.delay-2 { animation-delay: 80ms; }
+.delay-3 { animation-delay: 120ms; }
+.delay-4 { animation-delay: 160ms; }
+.delay-5 { animation-delay: 200ms; }
+.delay-6 { animation-delay: 240ms; }
 
-/* Subtle section divider */
 .section-divider {
   height: 1px;
-  background: var(--foreground);
-  opacity: 0.06;
+  background: var(--border);
+  opacity: 0.7;
 }
 
-/* Avatar ring */
 .avatar-ring {
   border-radius: 9999px;
   overflow: hidden;
-  border: 1.5px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--foreground) 15%, transparent);
 }
-

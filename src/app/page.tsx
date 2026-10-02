@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { projects } from "@/lib/projects";
 
 interface LeetCodeStats {
   total: number;
@@ -52,176 +53,386 @@ async function getLeetCodeStats(): Promise<LeetCodeStats> {
 
 export default async function Home() {
   const lc = await getLeetCodeStats();
+  const featuredProjects = projects.filter((p) => p.featured).slice(0, 5);
 
-  const skillGroups = {
-    Languages: ["Python", "C++", "JavaScript", "TypeScript"],
-    "ML/DL": ["PyTorch", "TensorFlow"],
-    Web: ["React", "Next.js", "Node.js"],
-    Databases: ["PostgreSQL", "MongoDB", "Redis"],
-  };
-
-  const codingProfiles = [
-    { name: "LeetCode", url: "https://leetcode.com/u/cookingDSA/" },
+  const skillGroups = [
     {
-      name: "GeeksforGeeks",
-      url: "https://www.geeksforgeeks.org/profile/rpranatxwq",
+      category: "Languages",
+      skills: ["Python", "Java", "C++", "SQL", "JavaScript", "TypeScript"],
     },
-    { name: "Codeforces", url: "https://codeforces.com/profile/cookingDSA" },
+    {
+      category: "Backend & Systems",
+      skills: ["FastAPI", "Node.js", "REST APIs", "WebSockets", "Idempotency", "Circuit Breakers", "Rate Limiting", "HMAC Webhooks"],
+    },
+    {
+      category: "Databases & Storage",
+      skills: ["PostgreSQL", "MySQL", "Redis", "SQL Query Optimization", "Alembic"],
+    },
+    {
+      category: "Cloud & DevOps",
+      skills: ["AWS", "Docker", "Terraform", "Git", "GitHub Actions", "CI/CD", "Linux"],
+    },
+    {
+      category: "AI, ML & Governance",
+      skills: ["PyTorch", "TensorFlow", "TensorFlow.js", "Scikit-learn", "LangChain", "FAISS", "Groq", "RAG"],
+    },
+    {
+      category: "Core CS & Testing",
+      skills: ["Data Structures & Algorithms", "OOP", "System Design", "Pytest (27 cases)", "Vitest"],
+    },
   ];
 
   return (
-    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto">
-      {/* Name + Avatar */}
-      <div className="flex items-center gap-3 mb-2 animate-in">
-        {/* Small avatar — add your photo as public/pranav.jpg */}
-        <div
-          className="avatar-ring flex-shrink-0"
-          style={{ width: 40, height: 40 }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/pranav.jpg"
-            alt="Pranav Raj"
-            width={40}
-            height={40}
-            style={{ objectFit: "cover", width: "100%", height: "100%" }}
-          />
+    <div className="px-4 sm:px-6 py-10 sm:py-14 max-w-3xl mx-auto space-y-12">
+      {/* ── 1. HERO HEADER ── */}
+      <section className="space-y-4 animate-in">
+        <div className="flex items-center gap-3.5">
+          <div className="avatar-ring flex-shrink-0 w-11 h-11">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/pranav.jpg"
+              alt="Pranav Raj"
+              width={44}
+              height={44}
+              className="object-cover w-full h-full"
+            />
+          </div>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+              Pranav Raj
+            </h1>
+            <p className="text-xs sm:text-sm text-accent font-medium">
+              Software Engineer — Backend, Distributed Systems &amp; AI Infrastructure
+            </p>
+          </div>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">
-          Pranav Raj
-        </h1>
-      </div>
 
-      {/* Current Focus Tag */}
-      <p className="text-xs sm:text-sm text-muted/80 mb-6 sm:mb-8 animate-in delay-1">
-        Currently focused on Software Engineering &amp; DSA
-      </p>
+        <p className="text-sm sm:text-base leading-relaxed text-muted">
+          B.Tech in Information Technology from <strong className="text-foreground">Manipal University Jaipur</strong> (2022–2026, CGPA: 7.8/10). 
+          Building high-throughput, fault-tolerant backend architectures, deterministic payment gateways, and materiality-driven AI governance planes. 
+          Competitive programmer with a focus on core algorithmic optimization.
+        </p>
 
-      {/* Hero Bio */}
-      <p className="text-base sm:text-lg leading-loose text-muted/80 max-w-xl mb-8 sm:mb-10 animate-in delay-2">
-        Computer science student building reliable software systems.
-        <br />
-        Currently focused on software engineering and algorithmic problem
-        solving, with long-term work in deep learning and NLP.
-      </p>
+        {/* Recruiter Quick Proof-of-Work Strip */}
+        <div className="flex flex-wrap gap-2 pt-1">
+          <span className="tag-badge tag-badge-accent">
+            ⚡ Codeforces Specialist (1459)
+          </span>
+          <span className="tag-badge">
+            🏆 Deloitte Hackathon Finalist
+          </span>
+          <span className="tag-badge">
+            📄 Springer LNNS Published
+          </span>
+          <span className="tag-badge">
+            💼 NIT Mizoram Intern
+          </span>
+        </div>
 
-      {/* Primary Links */}
-      <section className="mb-10 sm:mb-12 animate-in delay-3">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-3">
-          Links
-        </h2>
-        <div className="flex flex-wrap gap-4 sm:gap-6">
+        {/* Primary Action Buttons */}
+        <div className="flex flex-wrap items-center gap-3 pt-2">
+          <a
+            href="/resume.pdf"
+            download="Pranav_Raj_Resume.pdf"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-semibold bg-foreground text-background hover:opacity-90 transition-opacity"
+          >
+            <span>↓</span> Download Resume (PDF)
+          </a>
+          <Link
+            href="/work"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-semibold border border-border hover:border-accent hover:text-accent transition-colors"
+          >
+            <span>→</span> Explore Systems ({projects.length})
+          </Link>
           <a
             href="https://github.com/pranav172"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
+            className="text-xs text-muted hover:text-foreground underline underline-offset-4 transition-colors px-2 py-1.5"
           >
-            → GitHub
-          </a>
-          {/* Update this X handle to your actual @username */}
-          <a
-            href="https://x.com/cookingDSA"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-          >
-            → X (Twitter)
+            GitHub ↗
           </a>
           <a
             href="https://www.linkedin.com/in/pranav-raj-163230256/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
+            className="text-xs text-muted hover:text-foreground underline underline-offset-4 transition-colors px-2 py-1.5"
           >
-            → LinkedIn
+            LinkedIn ↗
           </a>
-        </div>
-      </section>
-
-      {/* Resume */}
-      <section className="mb-10 sm:mb-12 animate-in delay-3">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-3">
-          Resume
-        </h2>
-        <div className="flex flex-wrap gap-4 sm:gap-6">
-          <Link
-            href="/resume"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-          >
-            → View Resume ↗
-          </Link>
           <a
-            href="https://drive.google.com/uc?export=download&id=1yn5iHGSpm19sChjHdJzbB0hMqWzulN-2"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
+            href="mailto:rpranav1820@gmail.com"
+            className="text-xs text-muted hover:text-foreground underline underline-offset-4 transition-colors px-2 py-1.5"
           >
-            → Download PDF ↓
+            Email ↗
           </a>
         </div>
       </section>
 
-      <div className="section-divider mb-10 sm:mb-12" />
+      <div className="section-divider" />
 
-      {/* Skills */}
-      <section className="mb-10 sm:mb-12 animate-in delay-4">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-4">
-          Skills
+      {/* ── 2. SYSTEM DESIGN PHILOSOPHY ── */}
+      <section className="space-y-4 animate-in delay-1">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-foreground">
+            System Design &amp; Architectural Tenets
+          </h2>
+          <span className="text-[11px] text-muted font-mono">0.04ms · Idempotent · Resilient</span>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div className="card-minimal p-3.5 space-y-1">
+            <div className="font-semibold text-foreground flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              Deterministic Financial Gating
+            </div>
+            <p className="text-muted leading-relaxed">
+              LLMs converse, but mathematical code enforces bounds in &lt;0.04ms. No probabilistic models exist in the direct payment execution path.
+            </p>
+          </div>
+
+          <div className="card-minimal p-3.5 space-y-1">
+            <div className="font-semibold text-foreground flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              Fail-Closed Outage Isolation
+            </div>
+            <p className="text-muted leading-relaxed">
+              Circuit breakers trip to HTTP 503 during rail outages to prevent ghost debits, stranded transactions, or cascade failures.
+            </p>
+          </div>
+
+          <div className="card-minimal p-3.5 space-y-1">
+            <div className="font-semibold text-foreground flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              Non-Blocking 202 Ingestion
+            </div>
+            <p className="text-muted leading-relaxed">
+              Decoupling client HTTP timeouts from long task execution durations via Redis priority queues and state-machine transitions.
+            </p>
+          </div>
+
+          <div className="card-minimal p-3.5 space-y-1">
+            <div className="font-semibold text-foreground flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              Proportional Materiality Routing
+            </div>
+            <p className="text-muted leading-relaxed">
+              Consequence formulas (Irreversibility, People, Regulated Data, Financial Value) ensure expensive safety judges run only on high-risk tiers.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div className="section-divider" />
+
+      {/* ── 3. FEATURED SYSTEMS ── */}
+      <section className="space-y-5 animate-in delay-2">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-wider text-foreground">
+              Featured Systems &amp; Projects
+            </h2>
+            <p className="text-xs text-muted mt-0.5">
+              Production-grade applications and architectural prototypes
+            </p>
+          </div>
+          <Link
+            href="/work"
+            className="text-xs text-accent hover:underline underline-offset-4 font-medium"
+          >
+            View all ({projects.length}) →
+          </Link>
+        </div>
+
+        <div className="space-y-4">
+          {featuredProjects.map((project) => (
+            <article
+              key={project.id}
+              className="card-minimal p-4 sm:p-5 space-y-3"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm sm:text-base font-semibold text-foreground">
+                    {project.title}
+                  </h3>
+                  {project.event && (
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-accent/10 text-accent font-semibold">
+                      {project.event}
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-3 text-xs">
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent hover:underline font-semibold"
+                    >
+                      Live Demo ↗
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-foreground hover:text-accent hover:underline"
+                    >
+                      GitHub →
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                {project.description}
+              </p>
+
+              {/* Metrics strip */}
+              {project.metrics && project.metrics.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] text-foreground/80 bg-foreground/[0.02] p-2.5 rounded border border-border/40">
+                  {project.metrics.slice(0, 2).map((m, idx) => (
+                    <div key={idx} className="flex items-center gap-1.5">
+                      <span className="text-accent">✓</span>
+                      <span>{m}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Tech Stack */}
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {project.tech.map((t) => (
+                  <span key={t} className="tag-badge text-[11px]">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <div className="section-divider" />
+
+      {/* ── 4. TECHNICAL SKILLS MATRIX ── */}
+      <section className="space-y-4 animate-in delay-3">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-foreground">
+          Technical Skills &amp; Competencies
         </h2>
-        <div className="space-y-2">
-          {Object.entries(skillGroups).map(([category, skills]) => (
-            <div key={category} className="text-sm sm:text-base">
-              <span className="text-muted/70">{category}:</span>{" "}
-              <span className="text-foreground">{skills.join(" · ")}</span>
+        <div className="space-y-2.5 text-xs sm:text-sm">
+          {skillGroups.map((group) => (
+            <div key={group.category} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
+              <span className="text-muted font-medium w-40 flex-shrink-0">
+                {group.category}:
+              </span>
+              <span className="text-foreground leading-relaxed">
+                {group.skills.join(" · ")}
+              </span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Coding Profiles + LeetCode Stats */}
-      <section className="mb-10 sm:mb-12 animate-in delay-5">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-2">
-          Coding Profiles
-        </h2>
-        <p className="text-sm text-muted/70 mb-3">
-          Algorithmic problem solving and competitive practice
-        </p>
-        <div className="flex flex-wrap gap-4 sm:gap-6 mb-5">
-          {codingProfiles.map((profile) => (
-            <a
-              key={profile.name}
-              href={profile.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-            >
-              → {profile.name}
-            </a>
-          ))}
+      <div className="section-divider" />
+
+      {/* ── 5. EXPERIENCE & INTERNSHIP ── */}
+      <section className="space-y-4 animate-in delay-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-foreground">
+            Experience &amp; Internship
+          </h2>
+          <span className="text-xs text-muted font-mono">Jun 2023 – Aug 2023</span>
         </div>
 
-        {/* LeetCode Stats Widget */}
+        <div className="card-minimal p-4 space-y-2">
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between">
+            <h3 className="text-sm font-semibold text-foreground">
+              Backend Analytics Intern — National Institute of Technology (NIT) Mizoram
+            </h3>
+            <a
+              href="https://drive.google.com/file/d/1QYB7fUVvYapT_dSPwJn_11LaiQsxT2Ew/view?usp=drivesdk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-accent hover:underline font-medium"
+            >
+              Verified Certificate ↗
+            </a>
+          </div>
+          <ul className="list-disc list-inside text-xs sm:text-sm text-muted space-y-1 leading-relaxed">
+            <li>Developed <strong className="text-foreground">5+ REST APIs</strong> in Python and FastAPI for backend analytics and student data processing.</li>
+            <li>Optimized <strong className="text-foreground">SQL queries and data pipelines</strong>, reducing dashboard response latency by <strong className="text-foreground">15%</strong>.</li>
+            <li>Analyzed logs to debug production bottlenecks, improved workflow reliability, and authored API documentation.</li>
+          </ul>
+        </div>
+      </section>
+
+      <div className="section-divider" />
+
+      {/* ── 6. PROBLEM SOLVING & LEETCODE ── */}
+      <section className="space-y-4 animate-in delay-5">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-foreground">
+            Competitive Programming &amp; DSA
+          </h2>
+          <span className="text-xs text-muted font-mono">Profile: cookingDSA</span>
+        </div>
+
+        <div className="flex flex-wrap gap-4 text-xs sm:text-sm">
+          <a
+            href="https://codeforces.com/profile/cookingDSA"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-accent hover:underline underline-offset-4 font-medium"
+          >
+            → Codeforces (Specialist, 1459)
+          </a>
+          <a
+            href="https://leetcode.com/u/cookingDSA/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-accent hover:underline underline-offset-4 font-medium"
+          >
+            → LeetCode (Rating: 1415, 300+ Solved)
+          </a>
+          <a
+            href="https://www.geeksforgeeks.org/profile/rpranatxwq"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-accent hover:underline underline-offset-4 font-medium"
+          >
+            → GeeksforGeeks (200+ Solved, Rank: 113)
+          </a>
+        </div>
+
         {lc.total > 0 && (
-          <div className="inline-flex flex-wrap gap-x-5 gap-y-2 text-[13px] sm:text-sm text-muted/70 bg-foreground/[0.04] rounded-lg px-4 py-3">
-            <span>
-              <span className="text-foreground font-medium">{lc.total}</span>{" "}
-              solved
-            </span>
-            <span className="text-foreground/20">·</span>
-            <span>
-              <span className="text-green-500 font-medium">{lc.easy}</span>{" "}
-              Easy
+          <div className="inline-flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted bg-foreground/[0.03] border border-border/50 rounded-lg px-3.5 py-2.5">
+            <span className="text-foreground font-semibold">
+              LeetCode Submissions:
             </span>
             <span>
-              <span className="text-yellow-500 font-medium">{lc.medium}</span>{" "}
-              Medium
+              <strong className="text-foreground">{lc.total}</strong> Total
             </span>
-            <span>
-              <span className="text-red-500 font-medium">{lc.hard}</span> Hard
+            <span className="text-border">|</span>
+            <span className="text-emerald-500 font-medium">
+              {lc.easy} Easy
+            </span>
+            <span className="text-amber-500 font-medium">
+              {lc.medium} Medium
+            </span>
+            <span className="text-rose-500 font-medium">
+              {lc.hard} Hard
             </span>
           </div>
         )}
+      </section>
+
+      {/* ── 7. FOOTER CTA ── */}
+      <section className="pt-2 text-center text-xs text-muted">
+        <p>
+          Designed for maximum performance and readability · Built with Next.js &amp; Tailwind CSS
+        </p>
       </section>
     </div>
   );

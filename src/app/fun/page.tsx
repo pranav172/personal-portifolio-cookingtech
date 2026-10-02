@@ -3,76 +3,82 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Fun Projects — Pranav Raj",
-  description:
-    "Experiments, side projects, and things I built for the joy of it.",
+  description: "Experiments, side projects, and tools built out of curiosity.",
 };
 
 export default function FunPage() {
   return (
-    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto">
-      <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-2 animate-in">
-        Fun Projects
-      </h1>
-      <p className="text-muted/80 text-sm sm:text-base mb-10 sm:mb-12 animate-in delay-1">
-        Things I built because I was curious, bored, or mildly annoyed something
-        didn&apos;t exist yet.
-      </p>
+    <div className="px-4 sm:px-6 py-10 sm:py-14 max-w-3xl mx-auto space-y-8 animate-in">
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+          Experiments &amp; Explorations
+        </h1>
+        <p className="text-xs sm:text-sm text-muted mt-1 leading-relaxed">
+          Side projects built for campus utility, curiosity, and rapid product prototyping.
+        </p>
+      </div>
 
-      <div className="space-y-10 sm:space-y-12">
-        {funProjects.map((project, i) => (
+      <div className="space-y-4">
+        {funProjects.map((project) => (
           <article
             key={project.id}
-            className={`animate-in delay-${Math.min(i + 2, 6)}`}
+            className="card-minimal p-5 space-y-2.5"
           >
-            {/* Name */}
-            <h2 className="text-base sm:text-lg font-semibold mb-1">
-              <span className="mr-1.5">{project.emoji}</span>
-              {project.name}
-            </h2>
+            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+              <h2 className="text-sm sm:text-base font-semibold text-foreground flex items-center gap-1.5">
+                <span>{project.emoji}</span>
+                <span>{project.name}</span>
+              </h2>
 
-            {/* Why I built it */}
-            <p className="text-[13px] sm:text-sm text-accent/80 italic mb-2 leading-relaxed">
+              <div className="flex items-center gap-3 text-xs">
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:underline font-semibold"
+                  >
+                    Live Demo ↗
+                  </a>
+                )}
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-foreground hover:text-accent hover:underline"
+                  >
+                    GitHub →
+                  </a>
+                )}
+                {project.huggingface && (
+                  <a
+                    href={project.huggingface}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:underline"
+                  >
+                    HuggingFace ↗
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <p className="text-xs text-accent/90 italic font-mono">
               &ldquo;{project.tagline}&rdquo;
             </p>
 
-            {/* Description */}
-            <p className="text-muted/80 text-sm sm:text-base leading-relaxed mb-2">
+            <p className="text-xs sm:text-sm text-muted leading-relaxed">
               {project.description}
             </p>
 
-            {/* Tech */}
-            <div className="text-[12px] sm:text-[13px] text-muted/50 mb-3">
-              {project.tech.join(" · ")}
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {project.tech.map((t) => (
+                <span key={t} className="tag-badge text-[10px]">
+                  {t}
+                </span>
+              ))}
             </div>
-
-            {/* Links */}
-            <div className="flex flex-wrap gap-4 text-[13px] sm:text-sm">
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors duration-200"
-                >
-                  → GitHub
-                </a>
-              )}
-              {project.live && (
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors duration-200"
-                >
-                  → Live
-                </a>
-              )}
-            </div>
-
-            {/* Divider — except last item */}
-            {i < funProjects.length - 1 && (
-              <div className="mt-10 sm:mt-12 h-px bg-foreground/5" />
-            )}
           </article>
         ))}
       </div>
