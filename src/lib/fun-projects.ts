@@ -34,6 +34,27 @@ export const funProjects: FunProject[] = [
     live: 'https://ai-budget-coach-mu.vercel.app',
   },
   {
+    id: 'smart-grid',
+    name: 'Smart Grid AI',
+    emoji: '⚡',
+    tagline: 'Wanted to deploy a real PyTorch model and watch predictions stream live in the browser.',
+    description:
+      'FastAPI + PyTorch energy load forecaster backed by PJME dataset. React dashboard with a 2-second polling loop, glassmorphism UI, and confidence meter.',
+    tech: ['FastAPI', 'PyTorch', 'React', 'Vite', 'Render'],
+    github: 'https://github.com/pranav172/smart-grid-ai',
+    live: 'https://smart-grid-ai.vercel.app',
+  },
+  {
+    id: 'collab-canvas',
+    name: 'Collaborative Canvas',
+    emoji: '🎨',
+    tagline: 'Wanted to build a multiplayer whiteboard with zero lag and instant sync.',
+    description:
+      'Real-time drawing app with WebSockets and HTML5 Canvas. Server-side authoritative room manager, optimistic local rendering, 50ms cursor throttling, and full history sync for late joiners.',
+    tech: ['TypeScript', 'Node.js', 'WebSockets', 'HTML5 Canvas'],
+    github: 'https://github.com/pranav172/flamAssignment',
+  },
+  {
     id: 'nn-visualizer',
     name: 'Neural Network Visualizer',
     emoji: '🧠',
@@ -65,16 +86,6 @@ export const funProjects: FunProject[] = [
     live: 'https://plum-code.vercel.app',
   },
   {
-    id: 'smart-grid',
-    name: 'Smart Grid AI',
-    emoji: '⚡',
-    tagline: 'Wanted to deploy a real PyTorch model and watch predictions stream live in the browser.',
-    description:
-      'FastAPI + PyTorch energy load forecaster backed by PJME dataset. React dashboard with a 2-second polling loop, glassmorphism UI, and confidence meter.',
-    tech: ['FastAPI', 'PyTorch', 'React', 'Vite', 'Render'],
-    live: 'https://smart-grid-ai.vercel.app',
-  },
-  {
     id: 'muj-gpt',
     name: 'MUJ-GPT',
     emoji: '✨',
@@ -82,5 +93,6 @@ export const funProjects: FunProject[] = [
     description:
       'RAG chatbot backed by FAISS + LangChain that reads MUJ PDFs (academic calendar, mess menu, syllabus) and answers in Hinglish tone via Llama 3.3 on Groq.',
     tech: ['Python', 'LangChain', 'FAISS', 'Groq', 'Streamlit'],
+    github: 'https://github.com/pranav172/MUJ-GPT',
   },
 ];

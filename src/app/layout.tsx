@@ -5,24 +5,13 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Pranav Raj — Software Engineer | Backend & Distributed Systems",
-  description:
-    "Portfolio of Pranav Raj — B.Tech IT at Manipal University Jaipur. Specializing in deterministic AI gateways, distributed job orchestrators, and AI governance control planes.",
-  keywords: [
-    "Pranav Raj",
-    "Software Engineer",
-    "Backend Engineer",
-    "Distributed Systems",
-    "FastAPI",
-    "AI Governance",
-    "Codeforces Specialist",
-    "Manipal University Jaipur",
-  ],
+  title: "Pranav Raj",
+  description: "I explore machine learning and software systems by building experiments and writing about what I learn over time.",
+  keywords: ["machine learning", "software engineering", "portfolio", "Pranav Raj"],
   authors: [{ name: "Pranav Raj" }],
   openGraph: {
-    title: "Pranav Raj — Software Engineer",
-    description:
-      "Backend & Distributed Systems Engineer. Codeforces Specialist (1459). Builder of NIYAM, Blast Radius, and Atlas.",
+    title: "Pranav Raj",
+    description: "I explore machine learning and software systems by building experiments and writing about what I learn over time.",
     type: "website",
   },
 };
@@ -34,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">
+      <body className="antialiased font-sans">
         <ThemeProvider>
           <Nav />
           <main>{children}</main>
