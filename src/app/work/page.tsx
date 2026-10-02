@@ -35,12 +35,19 @@ function ProjectsList() {
           {filteredProjects.map((project) => (
             <article key={project.id}>
               {/* Title with optional Featured label */}
-              <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">
+              <h2 className="text-lg sm:text-xl font-semibold mb-1">
                 {project.title}
                 {project.featured && (
                   <span className="text-muted/40 text-xs font-normal ml-2">Featured</span>
                 )}
               </h2>
+
+              {/* Why I built it — blue accent heading */}
+              {project.tagline && (
+                <p className="text-[13px] sm:text-sm text-accent/80 italic mb-2 leading-relaxed">
+                  &ldquo;{project.tagline}&rdquo;
+                </p>
+              )}
               
               {/* Description */}
               <p className="text-muted/80 text-sm sm:text-base leading-relaxed mb-2">

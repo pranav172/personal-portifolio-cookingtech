@@ -151,9 +151,8 @@ export default async function Home() {
             → View Resume ↗
           </Link>
           <a
-            href="https://drive.google.com/uc?export=download&id=1yn5iHGSpm19sChjHdJzbB0hMqWzulN-2"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/resume.pdf"
+            download="Pranav_Raj_Resume.pdf"
             className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
           >
             → Download PDF ↓
