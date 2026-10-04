@@ -2,14 +2,19 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 
+// You can drop your own MP3 file into public/audio/ambient.mp3!
+// If present, it plays your custom audio file.
+// If absent, it automatically falls back to the built-in procedural ambient synth.
+const CUSTOM_AUDIO_PATH = '/audio/ambient.mp3';
+
 export function AmbientToggle() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const audioElRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const isRunningRef = useRef(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Warm pentatonic / lo-fi frequencies (D minor 9 / F major 7 chill chords)
-  // [D3, F3, A3, C4, E4, G4, A4]
   const CHORD_FREQS = [
     [146.83, 220.0, 261.63, 329.63], // Dm7 (D3, A3, C4, E4)
     [174.61, 261.63, 329.63, 392.0], // Fmaj7 (F3, C4, E4, G4)
@@ -19,6 +24,15 @@ export function AmbientToggle() {
 
   const stopAudio = useCallback(() => {
     isRunningRef.current = false;
+
+    // Stop custom audio element if playing
+    if (audioElRef.current) {
+      audioElRef.current.pause();
+      audioElRef.current.currentTime = 0;
+      audioElRef.current = null;
+    }
+
+    // Stop procedural synth if active
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -30,7 +44,7 @@ export function AmbientToggle() {
     setIsPlaying(false);
   }, []);
 
-  const startAudio = useCallback(() => {
+  const startProceduralSynth = useCallback(() => {
     try {
       const AudioCtx =
         window.AudioContext ||
@@ -73,7 +87,7 @@ export function AmbientToggle() {
       noiseFilter.Q.setValueAtTime(0.8, ctx.currentTime);
 
       const noiseGain = ctx.createGain();
-      noiseGain.gain.setValueAtTime(0.012, ctx.currentTime); // very subtle texture
+      noiseGain.gain.setValueAtTime(0.012, ctx.currentTime); // subtle texture
 
       whiteNoise.connect(noiseFilter);
       noiseFilter.connect(noiseGain);
@@ -93,15 +107,14 @@ export function AmbientToggle() {
           const osc = ctx.createOscillator();
           const noteGain = ctx.createGain();
 
-          // Mix of warm sine and soft triangle wave
           osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
           osc.frequency.setValueAtTime(freq, now);
 
-          // Subtle natural detune (lo-fi tape wobble)
+          // Subtle tape wobble detune
           const wobble = (Math.random() - 0.5) * 4.5;
           osc.detune.setValueAtTime(wobble, now);
 
-          // Gentle ambient envelope: slow attack, long release
+          // Slow attack, long release
           const noteVolume = 0.08 / freqs.length;
           noteGain.gain.setValueAtTime(0.0001, now);
           noteGain.gain.exponentialRampToValueAtTime(noteVolume, now + 1.8);
@@ -110,18 +123,36 @@ export function AmbientToggle() {
           osc.connect(noteGain);
           noteGain.connect(filter);
 
-          osc.start(now + idx * 0.15); // subtle arpeggiation
+          osc.start(now + idx * 0.15);
           osc.stop(now + 6.0);
         });
       };
 
-      // Play initial chord and loop every 4.8 seconds
       playChord();
       timerRef.current = setInterval(playChord, 4800);
     } catch {
       stopAudio();
     }
   }, [stopAudio]);
+
+  const startAudio = useCallback(() => {
+    // 1. First attempt to play custom user audio at /audio/ambient.mp3
+    const audio = new Audio(CUSTOM_AUDIO_PATH);
+    audio.loop = true;
+    audio.volume = 0.3;
+
+    audio
+      .play()
+      .then(() => {
+        audioElRef.current = audio;
+        isRunningRef.current = true;
+        setIsPlaying(true);
+      })
+      .catch(() => {
+        // 2. If no custom file is found, seamlessly fall back to procedural lo-fi ambient synth
+        startProceduralSynth();
+      });
+  }, [startProceduralSynth]);
 
   const toggle = useCallback(() => {
     if (isRunningRef.current) {
@@ -150,7 +181,7 @@ export function AmbientToggle() {
       className={`flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-accent rounded-xs ${
         isPlaying ? 'text-accent font-medium' : 'text-muted hover:text-foreground'
       }`}
-      title={isPlaying ? 'Ambient sound: Playing (Click to mute)' : 'Ambient sound: Off (Click to play chill lo-fi)'}
+      title={isPlaying ? 'Ambient sound: Playing (Click to mute)' : 'Ambient sound: Off (Click to play)'}
     >
       <span className="text-[12px] leading-none" aria-hidden="true">♪</span>
       <span>ambient</span>
