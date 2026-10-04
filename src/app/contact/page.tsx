@@ -44,30 +44,25 @@ export default function ContactPage() {
 
       {/* ── Contact Table Rows (Divider only, no boxes/cards) ── */}
       <div className="stagger-2">
-        {/* Email Row with Click-to-Copy */}
-        <div
+        {/* Email Row with Click-to-Copy: Native semantic button following guidelines */}
+        <button
+          type="button"
           onClick={handleCopyEmail}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              handleCopyEmail(e as unknown as React.MouseEvent);
-            }
-          }}
-          className="contact-row group cursor-pointer"
+          className="contact-row group w-full text-left cursor-pointer focus-visible:outline-2 focus-visible:outline-accent"
+          aria-label="Copy email address to clipboard"
         >
           <span className="text-xs font-mono text-muted uppercase tracking-wider">Email</span>
-          <span className="text-[13.5px] sm:text-[14px] font-mono text-foreground font-medium truncate break-all">
+          <span className="text-[13.5px] sm:text-[14px] font-mono text-foreground font-medium truncate break-all" translate="no">
             rpranav1820@gmail.com
           </span>
-          <span className="text-xs font-mono text-muted group-hover:text-accent flex-shrink-0">
+          <span className="text-xs font-mono text-muted group-hover:text-accent flex-shrink-0" aria-live="polite">
             {copied ? (
               <span className="text-emerald-500 font-medium">Copied! ✓</span>
             ) : (
               "Copy ↗"
             )}
           </span>
-        </div>
+        </button>
 
         {/* Other Social Rows */}
         {contactLinks.map((link) => (

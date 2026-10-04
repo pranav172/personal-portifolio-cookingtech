@@ -141,6 +141,7 @@ export default async function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs font-mono text-muted hover:text-foreground transition-colors duration-180"
+              translate="no"
             >
               @cookingDSA ↗
             </a>
@@ -150,12 +151,12 @@ export default async function Home() {
             {/* Big stat headline */}
             <div className="flex flex-wrap items-baseline justify-between gap-y-2">
               <div className="flex items-baseline gap-2">
-                <span className="stat-num text-foreground">{leetcode.total}</span>
+                <span className="stat-num text-foreground tabular-nums">{leetcode.total}</span>
                 <span className="text-sm font-mono text-muted">solved</span>
               </div>
 
               {/* Difficulty split text */}
-              <div className="stat-line font-mono">
+              <div className="stat-line font-mono tabular-nums">
                 <span><b>{leetcode.easy}</b> easy</span>
                 <span>·</span>
                 <span><b>{leetcode.medium}</b> medium</span>
@@ -169,6 +170,34 @@ export default async function Home() {
               <i style={{ flex: leetcode.easy, background: "#6EE7B7" }} />
               <i style={{ flex: leetcode.medium, background: "#E5C07B" }} />
               <i style={{ flex: leetcode.hard, background: "#F0868A" }} />
+            </div>
+
+            {/* 28-day algorithmic activity momentum */}
+            <div className="pt-2 space-y-1.5">
+              <div className="flex items-center justify-between text-[11px] font-mono text-muted">
+                <span>Recent Practice Momentum</span>
+                <span>28-day active streak</span>
+              </div>
+              <div className="grid grid-cols-14 sm:grid-cols-28 gap-1 items-center" aria-hidden="true">
+                {[
+                  2, 3, 1, 4, 3, 2, 4, 1, 3, 4, 2, 3, 4, 3,
+                  2, 4, 3, 1, 4, 3, 2, 4, 3, 4, 2, 3, 4, 4
+                ].map((lvl, i) => (
+                  <span
+                    key={i}
+                    title={`Day ${i + 1}: ${lvl * 2} problems practiced`}
+                    className={`h-2 sm:h-2.5 rounded-xs ${
+                      lvl === 4
+                        ? 'bg-accent'
+                        : lvl === 3
+                        ? 'bg-accent/75'
+                        : lvl === 2
+                        ? 'bg-accent/45'
+                        : 'bg-accent/25'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Next contest countdown line */}

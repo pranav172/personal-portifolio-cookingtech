@@ -1,9 +1,20 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PageProgress } from "@/components/PageProgress";
+import { CommandPalette } from "@/components/CommandPalette";
+import { TerminalModal } from "@/components/TerminalModal";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F4F6F5" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B0D0E" },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.pranavraj.xyz"),
@@ -104,9 +115,11 @@ export default function RootLayout({
                   if (theme === 'dark') {
                     document.documentElement.classList.add('dark');
                     document.documentElement.dataset.theme = 'dark';
+                    document.documentElement.style.colorScheme = 'dark';
                   } else {
                     document.documentElement.classList.remove('dark');
                     document.documentElement.dataset.theme = 'light';
+                    document.documentElement.style.colorScheme = 'light';
                   }
                 } catch(e) {}
               })();
@@ -119,12 +132,21 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased font-sans flex flex-col min-h-screen">
+        {/* WAI-ARIA compliant skip to content link */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-surface focus:text-accent focus:border focus:border-accent focus:rounded-md focus:shadow-lg text-xs font-mono"
+        >
+          Skip to content
+        </a>
         <ThemeProvider>
           {/* Subtle accent loading line on route changes */}
           <PageProgress />
           <Nav />
-          <main className="flex-1 page-animate">{children}</main>
+          <main id="main-content" className="flex-1 page-animate">{children}</main>
           <Footer />
+          <CommandPalette />
+          <TerminalModal />
         </ThemeProvider>
       </body>
     </html>

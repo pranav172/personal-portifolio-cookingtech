@@ -2,6 +2,7 @@ import { getProjectBySlug, projects } from "@/lib/projects";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { ArchitectureViewer } from "@/components/ArchitectureViewer";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -124,15 +125,8 @@ export default async function ProjectPage({ params }: Props) {
       )}
 
       {project.architecture && (
-        <section className="space-y-2">
-          <h2 className="text-xs font-mono text-muted uppercase tracking-wider">
-            Flow
-          </h2>
-          <div className="p-3.5 rounded-md border border-border bg-black/[0.03] dark:bg-white/[0.03] overflow-x-auto">
-            <pre className="font-mono text-xs leading-relaxed text-foreground select-all">
-              {project.architecture}
-            </pre>
-          </div>
+        <section className="space-y-1">
+          <ArchitectureViewer architecture={project.architecture} />
         </section>
       )}
 

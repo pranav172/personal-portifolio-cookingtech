@@ -31,7 +31,7 @@ export default function FunPage() {
           <li
             key={project.id}
             tabIndex={0}
-            className="fun-row group first:border-t-0 outline-none"
+            className="fun-row group first:border-t-0 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 rounded-xs"
             style={{ "--wiggle": `${project.wiggle ?? -12}deg` } as React.CSSProperties}
           >
             <div className="fun-line">

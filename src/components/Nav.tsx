@@ -35,7 +35,8 @@ export function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`transition-colors duration-180 ${
+                aria-current={active ? 'page' : undefined}
+                className={`py-1 focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180 ${
                   active
                     ? 'text-foreground font-medium underline underline-offset-4 decoration-accent'
                     : 'text-secondary hover:text-foreground'
@@ -48,7 +49,7 @@ export function Nav() {
 
           <Link
             href="/resume"
-            className="text-secondary hover:text-foreground transition-colors duration-180"
+            className="py-1 text-secondary hover:text-foreground focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180"
           >
             Resume ↗
           </Link>
