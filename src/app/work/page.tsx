@@ -26,8 +26,8 @@ export default function WorkPage() {
             key={p.id}
             className="row-item group space-y-2 first:border-t-0"
           >
-            {/* 1fr auto grid guarantees title and meta always share one single row and never wrap */}
-            <div className="grid grid-cols-[1fr_auto] items-baseline gap-4">
+            {/* Responsive grid: stacks cleanly on small mobile, side-by-side on desktop */}
+            <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] items-baseline gap-2 sm:gap-4">
               <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
                 <Link
                   href={`/work/${p.id}`}

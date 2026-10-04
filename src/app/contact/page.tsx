@@ -57,7 +57,7 @@ export default function ContactPage() {
           className="contact-row group cursor-pointer"
         >
           <span className="text-xs font-mono text-muted uppercase tracking-wider">Email</span>
-          <span className="text-[14px] font-mono text-foreground font-medium truncate">
+          <span className="text-[13.5px] sm:text-[14px] font-mono text-foreground font-medium truncate break-all">
             rpranav1820@gmail.com
           </span>
           <span className="text-xs font-mono text-muted group-hover:text-accent flex-shrink-0">

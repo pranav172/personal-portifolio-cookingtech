@@ -19,16 +19,16 @@ export function Nav() {
   };
 
   return (
-    <header className="w-full border-b border-border bg-background/95 sticky top-0 z-40 backdrop-blur-xs">
-      <div className="max-w-xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
+    <header className="hdr">
+      <div className="hdr-inner">
         <Link
           href="/"
-          className="text-sm font-medium tracking-tight text-foreground hover:text-muted transition-colors duration-200"
+          className="logo text-foreground hover:text-muted transition-colors"
         >
           Pranav Raj
         </Link>
 
-        <nav className="flex items-center gap-4 text-[13px] font-mono" aria-label="Main Navigation">
+        <nav className="nav font-mono" aria-label="Main Navigation">
           {links.map((link) => {
             const active = isActive(link.href);
             return (
@@ -48,15 +48,13 @@ export function Nav() {
 
           <Link
             href="/resume"
-            className="text-secondary hover:text-foreground transition-colors duration-200"
+            className="text-secondary hover:text-foreground transition-colors duration-180"
           >
             Resume ↗
           </Link>
-
-          <div className="h-3 w-px bg-border ml-1 hidden sm:block" />
-
-          <ThemeToggle />
         </nav>
+
+        <ThemeToggle />
       </div>
     </header>
   );
