@@ -57,6 +57,68 @@ export async function getLeetCode(user: string = "cookingDSA"): Promise<LeetCode
   }
 }
 
+/**
+ * Fetches the real 28-day submission activity from LeetCode's submissionCalendar.
+ * Returns an array of 28 numbers (0-4 intensity levels), most recent day last.
+ * Level 0 = no submissions, 1 = 1-2, 2 = 3-4, 3 = 5-7, 4 = 8+
+ */
+export async function getLeetCodeActivity(
+  user: string = "cookingDSA"
+): Promise<number[]> {
+  try {
+    const res = await fetch("https://leetcode.com/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Referer: "https://leetcode.com",
+        "User-Agent": "Mozilla/5.0",
+      },
+      body: JSON.stringify({
+        query: `query($u:String!){matchedUser(username:$u){submissionCalendar}}`,
+        variables: { u: user },
+      }),
+      next: { revalidate: 600 },
+    });
+
+    if (!res.ok) throw new Error("LeetCode calendar API error");
+
+    const j = await res.json();
+    const calStr = j?.data?.matchedUser?.submissionCalendar;
+    if (!calStr) throw new Error("No calendar data");
+
+    // submissionCalendar is a JSON string like {"1696118400": 3, "1696204800": 5, ...}
+    // Keys are Unix timestamps (start of day UTC), values are submission counts
+    const calendar: Record<string, number> = JSON.parse(calStr);
+
+    const now = new Date();
+    const days: number[] = [];
+
+    for (let i = 27; i >= 0; i--) {
+      const d = new Date(now);
+      d.setDate(d.getDate() - i);
+      // LeetCode uses midnight UTC timestamps
+      d.setUTCHours(0, 0, 0, 0);
+      const ts = Math.floor(d.getTime() / 1000).toString();
+      const count = calendar[ts] ?? 0;
+
+      // Map raw count to 0-4 intensity level
+      let level: number;
+      if (count === 0) level = 0;
+      else if (count <= 2) level = 1;
+      else if (count <= 4) level = 2;
+      else if (count <= 7) level = 3;
+      else level = 4;
+
+      days.push(level);
+    }
+
+    return days;
+  } catch {
+    // Fallback: return empty activity (all zeros)
+    return Array(28).fill(0);
+  }
+}
+
 export async function getLastCommit(user: string = "pranav172"): Promise<LastCommitInfo | null> {
   try {
     const res = await fetch(`https://api.github.com/users/${user}/repos?sort=pushed&per_page=1`, {

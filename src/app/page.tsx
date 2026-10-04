@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { projects } from "@/lib/projects";
-import { getLeetCode, getLastCommit, getNextContest } from "@/lib/stats";
+import { getLeetCode, getLeetCodeActivity, getLastCommit, getNextContest } from "@/lib/stats";
 import { LiveClock } from "@/components/LiveClock";
 import { SpotlightContainer } from "@/components/SpotlightContainer";
 
 export default async function Home() {
-  const [leetcode, lastCommit, nextContest] = await Promise.all([
+  const [leetcode, activity, lastCommit, nextContest] = await Promise.all([
     getLeetCode("cookingDSA"),
+    getLeetCodeActivity("cookingDSA"),
     getLastCommit("pranav172"),
     getNextContest(),
   ]);
@@ -172,28 +173,35 @@ export default async function Home() {
               <i style={{ flex: leetcode.hard, background: "#F0868A" }} />
             </div>
 
-            {/* 28-day algorithmic activity momentum */}
+            {/* 28-day real submission activity from LeetCode API */}
             <div className="pt-2 space-y-1.5">
               <div className="flex items-center justify-between text-[11px] font-mono text-muted">
-                <span>Recent Practice Momentum</span>
-                <span>28-day active streak</span>
+                <span>28-Day Submission Activity</span>
+                <span>
+                  {activity.filter((l) => l > 0).length} active day{activity.filter((l) => l > 0).length !== 1 ? 's' : ''}
+                </span>
               </div>
-              <div className="grid grid-cols-14 sm:grid-cols-28 gap-1 items-center" aria-hidden="true">
-                {[
-                  2, 3, 1, 4, 3, 2, 4, 1, 3, 4, 2, 3, 4, 3,
-                  2, 4, 3, 1, 4, 3, 2, 4, 3, 4, 2, 3, 4, 4
-                ].map((lvl, i) => (
+              <div className="grid grid-cols-14 sm:grid-cols-28 gap-1 items-center" aria-label="28-day LeetCode submission heatmap">
+                {activity.map((lvl, i) => (
                   <span
                     key={i}
-                    title={`Day ${i + 1}: ${lvl * 2} problems practiced`}
+                    title={`${28 - i} day${28 - i !== 1 ? 's' : ''} ago: ${
+                      lvl === 0 ? 'no submissions' :
+                      lvl === 1 ? '1–2 submissions' :
+                      lvl === 2 ? '3–4 submissions' :
+                      lvl === 3 ? '5–7 submissions' :
+                      '8+ submissions'
+                    }`}
                     className={`h-2 sm:h-2.5 rounded-xs ${
-                      lvl === 4
+                      lvl >= 4
                         ? 'bg-accent'
                         : lvl === 3
                         ? 'bg-accent/75'
                         : lvl === 2
                         ? 'bg-accent/45'
-                        : 'bg-accent/25'
+                        : lvl === 1
+                        ? 'bg-accent/25'
+                        : 'bg-border/60'
                     }`}
                   />
                 ))}
