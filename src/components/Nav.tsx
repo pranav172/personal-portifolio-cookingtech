@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from './ThemeToggle';
+import { HeaderMusicToggle } from './HeaderMusicToggle';
 
 export function Nav() {
   const pathname = usePathname();
@@ -55,7 +56,10 @@ export function Nav() {
           </Link>
         </nav>
 
-        <ThemeToggle />
+        <div className="hdr-actions flex items-center gap-1 sm:gap-2">
+          <HeaderMusicToggle />
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

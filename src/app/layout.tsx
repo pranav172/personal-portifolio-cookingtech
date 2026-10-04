@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { PageProgress } from "@/components/PageProgress";
 import { CommandPalette } from "@/components/CommandPalette";
 import { TerminalModal } from "@/components/TerminalModal";
+import { AudioProvider } from "@/components/AudioProvider";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -140,13 +141,15 @@ export default function RootLayout({
           Skip to content
         </a>
         <ThemeProvider>
-          {/* Subtle accent loading line on route changes */}
-          <PageProgress />
-          <Nav />
-          <main id="main-content" className="flex-1 page-animate">{children}</main>
-          <Footer />
-          <CommandPalette />
-          <TerminalModal />
+          <AudioProvider>
+            {/* Subtle accent loading line on route changes */}
+            <PageProgress />
+            <Nav />
+            <main id="main-content" className="flex-1 page-animate">{children}</main>
+            <Footer />
+            <CommandPalette />
+            <TerminalModal />
+          </AudioProvider>
         </ThemeProvider>
       </body>
     </html>

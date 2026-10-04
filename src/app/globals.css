@@ -488,12 +488,19 @@ code, .font-mono {
   .hdr-inner {
     display: grid;
     grid-template-columns: 1fr auto;
-    grid-template-areas: "logo toggle" "nav nav";
+    grid-template-areas: "logo actions" "nav nav";
     row-gap: 12px;
     padding: 12px 20px 10px;
   }
   .logo {
     grid-area: logo;
+  }
+  .hdr-actions {
+    grid-area: actions;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: flex-end;
   }
   .toggle {
     grid-area: toggle;
