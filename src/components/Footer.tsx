@@ -1,5 +1,7 @@
 'use client';
 
+import { AmbientToggle } from './AmbientToggle';
+
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -58,11 +60,11 @@ export function Footer() {
 
         {/* Interactive utilities: Command Palette & Terminal trigger */}
         <div className="flex items-center justify-between pt-2 border-t border-border/40 text-[11px] text-muted">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={openCommandPalette}
               type="button"
-              className="hover:text-accent transition-colors flex items-center gap-1 cursor-pointer"
+              className="hover:text-accent transition-colors flex items-center gap-1 cursor-pointer focus-visible:outline-2 focus-visible:outline-accent rounded-xs"
             >
               <span>⌘K</span>
               <span>commands</span>
@@ -71,11 +73,13 @@ export function Footer() {
             <button
               onClick={openTerminal}
               type="button"
-              className="hover:text-accent transition-colors flex items-center gap-1 cursor-pointer"
+              className="hover:text-accent transition-colors flex items-center gap-1 cursor-pointer focus-visible:outline-2 focus-visible:outline-accent rounded-xs"
             >
               <span>&gt;_</span>
               <span>terminal</span>
             </button>
+            <span>·</span>
+            <AmbientToggle />
           </div>
 
           <span className="text-muted/80">Graphite &amp; Mint</span>

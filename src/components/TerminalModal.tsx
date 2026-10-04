@@ -65,10 +65,17 @@ export function TerminalModal() {
             <div><span className="text-accent font-medium">stats</span>    - LeetCode &amp; algorithmic momentum</div>
             <div><span className="text-accent font-medium">contact</span>  - Email &amp; active channels</div>
             <div><span className="text-accent font-medium">theme</span>    - Toggle dark/light appearance</div>
+            <div><span className="text-accent font-medium">ambient</span>  - Toggle lo-fi background sound</div>
             <div><span className="text-accent font-medium">clear</span>    - Clear terminal history</div>
             <div><span className="text-accent font-medium">exit</span>     - Close shell session</div>
           </div>
         );
+        break;
+
+      case 'music':
+      case 'ambient':
+        window.dispatchEvent(new CustomEvent('toggle-ambient'));
+        output = 'Toggled lo-fi ambient audio (see the animated ♪ indicator in footer).';
         break;
 
       case 'about':

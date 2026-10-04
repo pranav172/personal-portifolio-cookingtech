@@ -109,6 +109,13 @@ export function CommandPalette() {
         shortcut: '~',
         action: openTerminal,
       },
+      {
+        id: 'action-ambient',
+        title: 'Toggle Lo-Fi Ambient Sound (♪)',
+        category: 'Actions',
+        shortcut: 'M',
+        action: () => window.dispatchEvent(new CustomEvent('toggle-ambient')),
+      },
 
       // Socials
       {
