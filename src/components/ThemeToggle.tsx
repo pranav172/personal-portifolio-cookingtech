@@ -1,50 +1,69 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
+
+const emptySubscribe = () => () => {};
 
 export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
-  useEffect(() => {
-    setMounted(true);
-    setIsDark(document.documentElement.classList.contains('dark'));
-  }, []);
+  const isDark = useSyncExternalStore(
+    (callback) => {
+      const observer = new MutationObserver(callback);
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+      return () => observer.disconnect();
+    },
+    () => document.documentElement.classList.contains('dark'),
+    () => false
+  );
 
   const toggleTheme = () => {
-    const newIsDark = !isDark;
-    setIsDark(newIsDark);
-    
-    if (newIsDark) {
-      document.documentElement.classList.add('dark');
+    const root = document.documentElement;
+    root.classList.add('theme-transitioning');
+
+    const nextIsDark = !isDark;
+
+    if (nextIsDark) {
+      root.classList.add('dark');
       localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
+
+    window.setTimeout(() => {
+      root.classList.remove('theme-transitioning');
+    }, 150);
   };
 
-  // Avoid hydration mismatch
-  if (!mounted) {
-    return <button className="w-6 h-6" aria-label="Toggle theme" />;
+  if (!isMounted) {
+    return <span className="w-4 h-4 inline-block" aria-hidden="true" />;
   }
 
   return (
     <button
       onClick={toggleTheme}
-      className="w-6 h-6 flex items-center justify-center text-foreground hover:text-accent transition-colors duration-200"
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      type="button"
+      className="text-muted hover:text-foreground transition-colors p-1 text-xs"
+      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      title={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
     >
       {isDark ? (
-        // Sun icon
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="14"
+          height="14"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="1.75"
           strokeLinecap="round"
           strokeLinejoin="round"
         >
@@ -59,15 +78,14 @@ export function ThemeToggle() {
           <path d="m19.07 4.93-1.41 1.41" />
         </svg>
       ) : (
-        // Moon icon
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="14"
+          height="14"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="1.75"
           strokeLinecap="round"
           strokeLinejoin="round"
         >

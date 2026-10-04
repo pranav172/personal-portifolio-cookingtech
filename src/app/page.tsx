@@ -1,226 +1,281 @@
 import Link from "next/link";
-
-interface LeetCodeStats {
-  total: number;
-  easy: number;
-  medium: number;
-  hard: number;
-}
-
-async function getLeetCodeStats(): Promise<LeetCodeStats> {
-  try {
-    const res = await fetch("https://leetcode.com/graphql", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Referer: "https://leetcode.com",
-        Origin: "https://leetcode.com",
-      },
-      body: JSON.stringify({
-        query: `query userPublicProfile($username: String!) {
-          matchedUser(username: $username) {
-            submitStatsGlobal {
-              acSubmissionNum {
-                difficulty
-                count
-              }
-            }
-          }
-        }`,
-        variables: { username: "cookingDSA" },
-      }),
-      next: { revalidate: 3600 },
-    });
-
-    const data = await res.json();
-    const stats: { difficulty: string; count: number }[] =
-      data?.data?.matchedUser?.submitStatsGlobal?.acSubmissionNum ?? [];
-
-    const get = (d: string) =>
-      stats.find((s) => s.difficulty === d)?.count ?? 0;
-
-    return {
-      total: get("All"),
-      easy: get("Easy"),
-      medium: get("Medium"),
-      hard: get("Hard"),
-    };
-  } catch {
-    return { total: 300, easy: 120, medium: 145, hard: 35 };
-  }
-}
+import Image from "next/image";
+import { projects } from "@/lib/projects";
+import { getLeetCode, getLastCommit, getNextContest } from "@/lib/stats";
+import { LiveClock } from "@/components/LiveClock";
+import { SpotlightContainer } from "@/components/SpotlightContainer";
 
 export default async function Home() {
-  const lc = await getLeetCodeStats();
+  const [leetcode, lastCommit, nextContest] = await Promise.all([
+    getLeetCode("cookingDSA"),
+    getLastCommit("pranav172"),
+    getNextContest(),
+  ]);
 
-  const skillGroups = {
-    Languages: ["Python", "C++", "JavaScript", "TypeScript", "SQL"],
-    "Backend & Cloud": ["FastAPI", "Node.js", "PostgreSQL", "Redis", "Docker"],
-    "ML & Systems": ["PyTorch", "TensorFlow", "DSA", "System Design"],
-    Web: ["React", "Next.js", "TailwindCSS"],
-  };
-
-  const codingProfiles = [
-    { name: "LeetCode", url: "https://leetcode.com/u/cookingDSA/" },
-    {
-      name: "GeeksforGeeks",
-      url: "https://www.geeksforgeeks.org/profile/rpranatxwq",
-    },
-    { name: "Codeforces", url: "https://codeforces.com/profile/cookingDSA" },
-  ];
+  // Show 3 core projects to keep home page focused and minimal
+  const selectedProjects = projects.filter((p) => p.featured).slice(0, 3);
 
   return (
-    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto">
-      {/* Name + Avatar */}
-      <div className="flex items-center gap-3 mb-2 animate-in">
-        {/* Small avatar */}
-        <div
-          className="avatar-ring flex-shrink-0"
-          style={{ width: 40, height: 40 }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/pranav.jpg"
-            alt="Pranav Raj"
-            width={40}
-            height={40}
-            style={{ objectFit: "cover", width: "100%", height: "100%" }}
-          />
-        </div>
-        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">
-          Pranav Raj
-        </h1>
-      </div>
+    <div className="relative min-h-[calc(100vh-3rem)]">
+      {/* ── Subtle background dot-grid that gracefully fades toward edges on wide displays ── */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-dot-grid opacity-60"
+        aria-hidden="true"
+      />
 
-      {/* Current Focus Tag */}
-      <p className="text-xs sm:text-sm text-muted/80 mb-6 sm:mb-8 animate-in delay-1">
-        Currently focused on Software Engineering &amp; DSA
-      </p>
-
-      {/* Hero Bio */}
-      <p className="text-base sm:text-lg leading-loose text-muted/80 max-w-xl mb-8 sm:mb-10 animate-in delay-2">
-        Computer science student building reliable software systems.
-        <br />
-        Currently focused on software engineering and algorithmic problem
-        solving, with long-term work in deep learning and NLP.
-      </p>
-
-      {/* Primary Links */}
-      <section className="mb-10 sm:mb-12 animate-in delay-3">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-3">
-          Links
-        </h2>
-        <div className="flex flex-wrap gap-4 sm:gap-6">
-          <a
-            href="https://github.com/pranav172"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-          >
-            → GitHub
-          </a>
-          <a
-            href="https://x.com/cookingDSA"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-          >
-            → X (Twitter)
-          </a>
-          <a
-            href="https://www.linkedin.com/in/pranav-raj-163230256/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-          >
-            → LinkedIn
-          </a>
-        </div>
-      </section>
-
-      {/* Resume */}
-      <section className="mb-10 sm:mb-12 animate-in delay-3">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-3">
-          Resume
-        </h2>
-        <div className="flex flex-wrap gap-4 sm:gap-6">
-          <Link
-            href="/resume"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-          >
-            → View Resume ↗
-          </Link>
-          <a
-            href="/resume.pdf"
-            download="Pranav_Raj_Resume.pdf"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
-          >
-            → Download PDF ↓
-          </a>
-        </div>
-      </section>
-
-      <div className="section-divider mb-10 sm:mb-12" />
-
-      {/* Skills */}
-      <section className="mb-10 sm:mb-12 animate-in delay-4">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-4">
-          Skills
-        </h2>
-        <div className="space-y-2">
-          {Object.entries(skillGroups).map(([category, skills]) => (
-            <div key={category} className="text-sm sm:text-base">
-              <span className="text-muted/70">{category}:</span>{" "}
-              <span className="text-foreground">{skills.join(" · ")}</span>
+      <div className="relative max-w-xl mx-auto px-4 sm:px-6 py-16 sm:py-24 space-y-16">
+        {/* ── Intro with Avatar, Glow & Real-Time Single-Line Status ── */}
+        <section className="space-y-4 stagger-1">
+          <div className="flex items-center gap-4">
+            <div className="relative flex-shrink-0">
+              {/* Subtle ambient radial glow behind avatar */}
+              <div
+                className="absolute -inset-2 rounded-full bg-[radial-gradient(circle,rgba(110,231,183,0.22)_0%,transparent_70%)] blur-md pointer-events-none"
+                aria-hidden="true"
+              />
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border border-border avatar-tilt bg-surface">
+                <Image
+                  src="/pranav.webp"
+                  alt="Pranav Raj"
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 56px, 64px"
+                  className="object-cover"
+                />
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* Coding Profiles + LeetCode Stats */}
-      <section className="mb-10 sm:mb-12 animate-in delay-5">
-        <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-2">
-          Coding Profiles
-        </h2>
-        <p className="text-sm text-muted/70 mb-3">
-          Algorithmic problem solving and competitive practice
-        </p>
-        <div className="flex flex-wrap gap-4 sm:gap-6 mb-5">
-          {codingProfiles.map((profile) => (
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground flex items-center gap-2">
+                <span>Pranav Raj</span>
+                <span className="wave-hand text-lg" aria-label="wave">👋</span>
+              </h1>
+
+              {/* Single-line header: ● pushed yesterday · 05:57 IST (repo on hover tooltip) */}
+              <div className="flex items-center gap-2 text-xs font-mono text-muted mt-1 whitespace-nowrap overflow-hidden">
+                <span className="relative flex h-2 w-2 items-center justify-center flex-shrink-0">
+                  <span className="pulse-ring absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-accent" />
+                </span>
+                <span
+                  className="cursor-default"
+                  title={lastCommit?.repo ? `Last pushed to ${lastCommit.repo}` : undefined}
+                >
+                  {lastCommit ? `pushed ${lastCommit.relativeTime}` : "building systems"}
+                </span>
+                <span>·</span>
+                <LiveClock />
+              </div>
+            </div>
+          </div>
+
+          <p className="text-[15px] text-secondary leading-relaxed pt-1">
+            Software engineer building backend architectures, distributed systems, and machine learning pipelines. Focused on clean system design, sub-millisecond gateways, and algorithmic efficiency.
+          </p>
+
+          {/* Social icons & primary actions */}
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <Link
+              href="/work"
+              className="text-[13px] font-mono font-medium text-accent hover:text-accent-hover transition-colors duration-180"
+            >
+              Work →
+            </Link>
+
+            {/* GitHub */}
             <a
-              key={profile.name}
-              href={profile.url}
+              href="https://github.com/pranav172"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-all duration-200"
+              className="p-1 rounded text-muted hover:text-foreground transition-colors duration-180"
+              aria-label="GitHub Profile"
             >
-              → {profile.name}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>
             </a>
-          ))}
-        </div>
 
-        {/* LeetCode Stats Widget */}
-        {lc.total > 0 && (
-          <div className="inline-flex flex-wrap gap-x-5 gap-y-2 text-[13px] sm:text-sm text-muted/70 bg-foreground/[0.04] rounded-lg px-4 py-3">
-            <span>
-              <span className="text-foreground font-medium">{lc.total}</span>{" "}
-              solved
-            </span>
-            <span className="text-foreground/20">·</span>
-            <span>
-              <span className="text-green-500 font-medium">{lc.easy}</span>{" "}
-              Easy
-            </span>
-            <span>
-              <span className="text-yellow-500 font-medium">{lc.medium}</span>{" "}
-              Medium
-            </span>
-            <span>
-              <span className="text-red-500 font-medium">{lc.hard}</span> Hard
-            </span>
+            {/* LinkedIn */}
+            <a
+              href="https://www.linkedin.com/in/pranav-raj-163230256/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1 rounded text-muted hover:text-foreground transition-colors duration-180"
+              aria-label="LinkedIn Profile"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
+            </a>
+
+            {/* X / Twitter */}
+            <a
+              href="https://x.com/Pranav_raj_18"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1 rounded text-muted hover:text-foreground transition-colors duration-180"
+              aria-label="X Profile"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+
+            <Link
+              href="/resume"
+              className="text-[13px] font-mono text-muted hover:text-foreground transition-colors duration-180"
+            >
+              Resume ↗
+            </Link>
           </div>
-        )}
-      </section>
+        </section>
+
+        {/* ── 1. LeetCode: One Clean Line + Proportional Bar (No Box!) ── */}
+        <section className="space-y-3 stagger-2">
+          <div className="flex items-center justify-between border-b border-border pb-2.5">
+            <h2 className="text-xs font-mono text-muted uppercase tracking-wider">
+              Algorithmic Problem Solving
+            </h2>
+            <a
+              href="https://leetcode.com/u/cookingDSA/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-mono text-muted hover:text-foreground transition-colors duration-180"
+            >
+              @cookingDSA ↗
+            </a>
+          </div>
+
+          <div className="py-2 space-y-3">
+            {/* Big stat headline */}
+            <div className="flex flex-wrap items-baseline justify-between gap-y-2">
+              <div className="flex items-baseline gap-2">
+                <span className="stat-num text-foreground">{leetcode.total}</span>
+                <span className="text-sm font-mono text-muted">solved</span>
+              </div>
+
+              {/* Difficulty split text */}
+              <div className="stat-line font-mono">
+                <span><b>{leetcode.easy}</b> easy</span>
+                <span>·</span>
+                <span><b>{leetcode.medium}</b> medium</span>
+                <span>·</span>
+                <span><b>{leetcode.hard}</b> hard</span>
+              </div>
+            </div>
+
+            {/* Proportional colored 2.5px split bar */}
+            <div className="stat-bar" aria-hidden="true">
+              <i style={{ flex: leetcode.easy, background: "#6EE7B7" }} />
+              <i style={{ flex: leetcode.medium, background: "#E5C07B" }} />
+              <i style={{ flex: leetcode.hard, background: "#F0868A" }} />
+            </div>
+
+            {/* Next contest countdown line */}
+            {nextContest && (
+              <div className="flex items-center justify-between text-[12px] font-mono text-muted pt-1">
+                <span className="truncate max-w-[340px]">
+                  Next: {nextContest.name}
+                </span>
+                <span className="text-accent font-medium flex-shrink-0">
+                  {nextContest.relativeTime}
+                </span>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* ── Selected Work: Hover Without Boxes (Dim siblings + title underline sweep + spotlight glow) ── */}
+        <section className="space-y-4 stagger-3">
+          <div className="flex items-center justify-between border-b border-border pb-2.5">
+            <h2 className="text-xs font-mono text-muted uppercase tracking-wider">
+              Selected Work
+            </h2>
+            <Link
+              href="/work"
+              className="text-xs font-mono text-muted hover:text-foreground transition-colors duration-180"
+            >
+              All projects ({projects.length}) →
+            </Link>
+          </div>
+
+          <SpotlightContainer className="py-1">
+            <div className="row-list">
+              {selectedProjects.map((p) => (
+                <article
+                  key={p.id}
+                  className="row-item group space-y-2 first:border-t-0"
+                >
+                  <div className="flex items-baseline justify-between gap-4">
+                    <div className="flex flex-wrap items-baseline gap-2.5">
+                      <Link href={`/work/${p.id}`} className="inline-block">
+                        <h3 className="title-sweep text-[15px] font-medium text-foreground">
+                          {p.title}
+                        </h3>
+                      </Link>
+
+                      {p.badge && (
+                        <span className="text-[12px] font-mono text-accent font-medium">
+                          ★ {p.badge}
+                        </span>
+                      )}
+                    </div>
+
+                    <span className="arrow-slide text-xs font-mono">
+                      ↗
+                    </span>
+                  </div>
+
+                  <p className="text-[13.5px] text-secondary leading-relaxed">
+                    {p.description}
+                  </p>
+
+                  {/* Plain mono tags separated by dots */}
+                  <div className="text-[12px] font-mono text-muted">
+                    {p.tech.slice(0, 4).join(" · ")}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </SpotlightContainer>
+        </section>
+
+        {/* ── Research & Systems (Clean divider, no card) ── */}
+        <section className="space-y-3 stagger-4">
+          <div className="border-b border-border pb-2.5">
+            <h2 className="text-xs font-mono text-muted uppercase tracking-wider">
+              Research &amp; Systems
+            </h2>
+          </div>
+
+          <div className="py-3 space-y-1.5">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <span className="text-[14.5px] font-medium text-foreground">
+                Video Classification Research
+              </span>
+              <span className="text-[12px] font-mono text-accent font-medium">
+                ★ Springer LNNS 2026
+              </span>
+            </div>
+            <p className="text-[13.5px] text-secondary leading-relaxed">
+              Deep learning surveillance framework using MobileNetV2 and Bi-LSTM. Accepted at ICT4SD 2026.
+            </p>
+          </div>
+        </section>
+
+        {/* ── Direct Contact ── */}
+        <section className="space-y-3 pt-6 border-t border-border stagger-5">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 text-xs font-mono">
+            <span className="text-secondary">Open to software engineering roles &amp; internships.</span>
+            <a
+              href="mailto:rpranav1820@gmail.com"
+              className="text-foreground hover:text-accent font-medium transition-colors duration-180"
+            >
+              rpranav1820@gmail.com →
+            </a>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

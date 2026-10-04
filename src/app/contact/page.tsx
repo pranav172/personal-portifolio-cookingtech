@@ -1,59 +1,109 @@
-import { Metadata } from "next";
+'use client';
 
-export const metadata: Metadata = {
-  title: "Contact | Pranav Raj",
-  description: "Get in touch with Pranav Raj.",
-};
+import { useState } from "react";
+import Link from "next/link";
 
 export default function ContactPage() {
-  return (
-    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto min-h-[55vh] sm:min-h-[60vh]">
-      <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-2 sm:mb-3">Contact</h1>
-      
-      {/* Context line */}
-      <p className="text-muted/80 text-sm sm:text-base mb-8 sm:mb-10">
-        Open to collaboration, internships, and software engineering roles.
-      </p>
-      
-      {/* Two-column layout on desktop, stacked on mobile */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10">
-        {/* Email */}
-        <section>
-          <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-2 sm:mb-3">
-            Email
-          </h2>
-          <a
-            href="mailto:rpranav1820@gmail.com"
-            className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
-          >
-            → rpranav1820@gmail.com
-          </a>
-        </section>
+  const [copied, setCopied] = useState(false);
 
-        {/* Socials - reordered by professional priority */}
-        <section>
-          <h2 className="text-sm font-semibold text-foreground uppercase tracking-wide mb-2 sm:mb-3">
-            Socials
-          </h2>
-          <div className="flex flex-wrap gap-4 sm:gap-6">
-            <a
-              href="https://www.linkedin.com/in/pranav-raj-163230256/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
-            >
-              → LinkedIn
-            </a>
-            <a
-              href="https://x.com/cookingDSA"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm sm:text-base text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
-            >
-              → X (Twitter)
-            </a>
-          </div>
-        </section>
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigator.clipboard.writeText("rpranav1820@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const contactLinks = [
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/pranav-raj-163230256/",
+      display: "pranav-raj-163230256",
+    },
+    {
+      label: "GitHub",
+      href: "https://github.com/pranav172",
+      display: "github.com/pranav172",
+    },
+    {
+      label: "X",
+      href: "https://x.com/Pranav_raj_18",
+      display: "@Pranav_raj_18",
+    },
+  ];
+
+  return (
+    <div className="max-w-xl mx-auto px-4 sm:px-6 py-16 sm:py-24 space-y-10">
+      <header className="space-y-2 stagger-1">
+        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
+          Contact
+        </h1>
+        <p className="text-[14px] text-secondary leading-relaxed">
+          Open to software engineering roles, systems discussions, or just a hello.
+        </p>
+      </header>
+
+      {/* ── Contact Table Rows (Divider only, no boxes/cards) ── */}
+      <div className="stagger-2">
+        {/* Email Row with Click-to-Copy */}
+        <div
+          onClick={handleCopyEmail}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              handleCopyEmail(e as unknown as React.MouseEvent);
+            }
+          }}
+          className="contact-row group cursor-pointer"
+        >
+          <span className="text-xs font-mono text-muted uppercase tracking-wider">Email</span>
+          <span className="text-[14px] font-mono text-foreground font-medium truncate">
+            rpranav1820@gmail.com
+          </span>
+          <span className="text-xs font-mono text-muted group-hover:text-accent flex-shrink-0">
+            {copied ? (
+              <span className="text-emerald-500 font-medium">Copied! ✓</span>
+            ) : (
+              "Copy ↗"
+            )}
+          </span>
+        </div>
+
+        {/* Other Social Rows */}
+        {contactLinks.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contact-row group"
+          >
+            <span className="text-xs font-mono text-muted uppercase tracking-wider">
+              {link.label}
+            </span>
+            <span className="text-[14px] font-mono text-foreground font-medium truncate">
+              {link.display}
+            </span>
+            <span className="text-xs font-mono text-muted group-hover:text-accent group-hover:translate-x-0.5 transition-all duration-180 flex-shrink-0">
+              ↗
+            </span>
+          </a>
+        ))}
+      </div>
+
+      {/* ── Response Time & Plain Underlined Resume Link ── */}
+      <div className="pt-6 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4 stagger-3">
+        <div className="flex items-center gap-2 text-xs font-mono text-secondary">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
+          <span>Usually reply within a day</span>
+        </div>
+
+        <Link
+          href="/resume"
+          className="text-xs font-mono text-muted hover:text-foreground underline underline-offset-4 decoration-border hover:decoration-accent transition-colors duration-180"
+        >
+          View Resume ↗
+        </Link>
       </div>
     </div>
   );

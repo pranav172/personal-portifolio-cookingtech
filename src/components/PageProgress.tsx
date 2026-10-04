@@ -1,48 +1,40 @@
 'use client';
 
 /**
- * PageProgress
- * A lightweight top-of-page progress bar that fires on every pathname change.
- * - Uses only CSS transform + opacity (compositor thread, zero layout reflow).
- * - No external dependencies.
- * - Respects prefers-reduced-motion via the CSS animation itself.
+ * ScrollProgress
+ * A fluid 2px line at the top of the viewport that tracks scroll depth.
+ * - Sets --scroll-progress CSS var on <html> for smooth CSS-driven animation.
+ * - Uses requestAnimationFrame for compositor-thread efficiency.
+ * - Zero layout reflow — only writes a CSS custom property.
+ * - Respects prefers-reduced-motion via CSS.
  */
 
-import { usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 export function PageProgress() {
-  const pathname = usePathname();
-  const barRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    const bar = barRef.current;
-    if (!bar) return;
+    let rafId: number;
 
-    // Reset and replay the animation by toggling the class
-    bar.classList.remove('progress-run');
-    // Trigger reflow so the browser sees the removed class before re-adding
-    void bar.offsetWidth;
-    bar.classList.add('progress-run');
-  }, [pathname]);
+    const update = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      document.documentElement.style.setProperty('--scroll-progress', String(progress));
+    };
 
-  return (
-    <div
-      aria-hidden="true"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '2px',
-        zIndex: 9999,
-        pointerEvents: 'none',
-      }}
-    >
-      <div
-        ref={barRef}
-        className="progress-bar"
-      />
-    </div>
-  );
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update(); // set initial value
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  return <div aria-hidden="true" className="scroll-line" />;
 }

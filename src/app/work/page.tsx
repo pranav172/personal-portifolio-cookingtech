@@ -1,124 +1,101 @@
-'use client';
-
 import { projects } from "@/lib/projects";
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import Link from "next/link";
+import type { Metadata } from "next";
 
-function ProjectsList() {
-  const searchParams = useSearchParams();
-  const skillFilter = searchParams.get('skill');
-  
-  const filteredProjects = skillFilter 
-    ? projects.filter(p => p.tech.some(t => t.toLowerCase() === skillFilter.toLowerCase()))
-    : projects;
-
-  return (
-    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto">
-      <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-2 sm:mb-3">Projects</h1>
-      
-      {skillFilter ? (
-        <p className="text-muted/80 text-sm sm:text-base mb-8 sm:mb-10">
-          Showing projects with <span className="text-foreground font-medium">{skillFilter}</span>
-          {' · '}
-          <a href="/work" className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors">Show all</a>
-        </p>
-      ) : (
-        <p className="text-muted/80 text-sm sm:text-base mb-10 sm:mb-12">
-          Selected projects across backend systems, machine learning, and problem solving.
-        </p>
-      )}
-      
-      {filteredProjects.length === 0 ? (
-        <p className="text-muted">No projects found with this skill.</p>
-      ) : (
-        <div className="space-y-8 sm:space-y-10">
-          {filteredProjects.map((project) => (
-            <article key={project.id} className="card-lift">
-              {/* Title with optional Featured label */}
-              <h2 className="text-lg sm:text-xl font-semibold mb-1">
-                {project.title}
-                {project.featured && (
-                  <span className="text-muted/40 text-xs font-normal ml-2">Featured</span>
-                )}
-              </h2>
-
-              {/* Why I built it — blue accent heading */}
-              {project.tagline && (
-                <p className="text-[13px] sm:text-sm text-accent/80 italic mb-2 leading-relaxed">
-                  &ldquo;{project.tagline}&rdquo;
-                </p>
-              )}
-              
-              {/* Description */}
-              <p className="text-muted/80 text-sm sm:text-base leading-relaxed mb-2">
-                {project.description}
-              </p>
-              
-              {/* Tech Stack - quieter metadata */}
-              <div className="text-[13px] sm:text-sm text-muted/70 mb-2">
-                {project.tech.join(' · ')}
-              </div>
-              
-              {/* Links - arrow style */}
-              <div className="flex flex-wrap gap-4 text-[13px] sm:text-sm">
-                {project.github && (
-                  <a 
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
-                  >
-                    → GitHub
-                  </a>
-                )}
-                {project.live && (
-                  <a 
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
-                  >
-                    → Live
-                  </a>
-                )}
-                {project.docs && (
-                  <a 
-                    href={project.docs}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
-                  >
-                    → API Docs
-                  </a>
-                )}
-                {project.kaggle && (
-                  <a 
-                    href={project.kaggle}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors"
-                  >
-                    → Kaggle
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
+export const metadata: Metadata = {
+  title: "Work — Pranav Raj",
+  description: "Selected projects across backend systems and machine learning.",
+};
 
 export default function WorkPage() {
   return (
-    <Suspense fallback={
-      <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto">
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-4">Projects</h1>
-        <p className="text-muted">Loading...</p>
+    <div className="max-w-xl mx-auto px-4 sm:px-6 py-16 sm:py-24 space-y-10">
+      <header className="space-y-2 stagger-1">
+        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
+          Work
+        </h1>
+        <p className="text-[14px] text-secondary">
+          Selected software systems, distributed services, and machine learning research.
+        </p>
+      </header>
+
+      {/* ── Work List without boxes: Dim siblings + title underline sweep + 1fr auto alignment ── */}
+      <div className="row-list stagger-2">
+        {projects.map((p) => (
+          <article
+            key={p.id}
+            className="row-item group space-y-2 first:border-t-0"
+          >
+            {/* 1fr auto grid guarantees title and meta always share one single row and never wrap */}
+            <div className="grid grid-cols-[1fr_auto] items-baseline gap-4">
+              <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                <Link
+                  href={`/work/${p.id}`}
+                  className="inline-block"
+                >
+                  <h3 className="title-sweep text-[15.5px] font-medium text-foreground">
+                    {p.title}
+                  </h3>
+                </Link>
+
+                {/* Accent badge without background or border */}
+                {p.badge && (
+                  <span className="text-[12px] font-mono text-accent font-medium">
+                    ★ {p.badge}
+                  </span>
+                )}
+              </div>
+
+              {/* Status / Year & External links */}
+              <div className="flex items-center gap-3 text-[13px] font-mono text-muted flex-shrink-0">
+                {p.year && (
+                  <span className="text-[12px] text-muted">{p.year}</span>
+                )}
+
+                {p.github && (
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-foreground transition-colors duration-180"
+                  >
+                    GitHub ↗
+                  </a>
+                )}
+                {p.live && (
+                  <a
+                    href={p.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:text-accent-hover font-medium transition-colors duration-180"
+                  >
+                    Live ↗
+                  </a>
+                )}
+                {p.kaggle && (
+                  <a
+                    href={p.kaggle}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-foreground transition-colors duration-180"
+                  >
+                    Kaggle ↗
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <p className="text-[13.5px] text-secondary leading-relaxed">
+              {p.description}
+            </p>
+
+            {/* Plain mono text separated by dots in muted color */}
+            <div className="text-[12px] font-mono text-muted">
+              {p.tech.join(" · ")}
+            </div>
+          </article>
+        ))}
       </div>
-    }>
-      <ProjectsList />
-    </Suspense>
+    </div>
   );
 }

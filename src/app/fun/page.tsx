@@ -2,90 +2,101 @@ import { funProjects } from "@/lib/fun-projects";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Fun Projects — Pranav Raj",
-  description:
-    "Experiments, side projects, and things I built for the joy of it.",
+  title: "Fun — Pranav Raj",
+  description: "Stuff I built at 2am instead of sleeping.",
 };
 
 export default function FunPage() {
+  const countStr = String(funProjects.length).padStart(2, "0");
+
   return (
-    <div className="px-4 sm:px-6 py-12 sm:py-16 max-w-3xl mx-auto">
-      <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-2 animate-in">
-        Fun Projects
-      </h1>
-      <p className="text-muted/80 text-sm sm:text-base mb-10 sm:mb-12 animate-in delay-1">
-        Things I built because I was curious, bored, or mildly annoyed something
-        didn&apos;t exist yet.
-      </p>
+    <div className="max-w-xl mx-auto px-4 sm:px-6 py-16 sm:py-24 space-y-10">
+      <header className="space-y-2 stagger-1">
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
+            Fun
+          </h1>
+          <span className="text-xs font-mono text-muted">
+            {countStr} experiments
+          </span>
+        </div>
+        <p className="text-[14px] text-secondary">
+          Stuff I built at 2am instead of sleeping.
+        </p>
+      </header>
 
-      <div className="space-y-10 sm:space-y-12">
-        {funProjects.map((project, i) => (
-          <article
+      {/* ── Direction A: Big-type index with hover reveal ── */}
+      <ul className="fun-list stagger-2">
+        {funProjects.map((project) => (
+          <li
             key={project.id}
-            className={`card-lift animate-in delay-${Math.min(i + 2, 6)}`}
+            tabIndex={0}
+            className="fun-row group first:border-t-0 outline-none"
+            style={{ "--wiggle": `${project.wiggle ?? -12}deg` } as React.CSSProperties}
           >
-            {/* Name */}
-            <h2 className="text-base sm:text-lg font-semibold mb-1">
-              <span className="mr-1.5">{project.emoji}</span>
-              {project.name}
-            </h2>
-
-            {/* Why I built it */}
-            <p className="text-[13px] sm:text-sm text-accent/80 italic mb-2 leading-relaxed">
-              &ldquo;{project.tagline}&rdquo;
-            </p>
-
-            {/* Description */}
-            <p className="text-muted/80 text-sm sm:text-base leading-relaxed mb-2">
-              {project.description}
-            </p>
-
-            {/* Tech */}
-            <div className="text-[12px] sm:text-[13px] text-muted/50 mb-3">
-              {project.tech.join(" · ")}
+            <div className="fun-line">
+              <span className="fun-emoji" aria-hidden="true">
+                {project.emoji}
+              </span>
+              <h2>{project.name}</h2>
+              <span className="fun-year">{project.year} ↗</span>
             </div>
 
-            {/* Links */}
-            <div className="flex flex-wrap gap-4 text-[13px] sm:text-sm">
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors duration-200"
-                >
-                  → GitHub
-                </a>
-              )}
-              {project.live && (
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors duration-200"
-                >
-                  → Live
-                </a>
-              )}
-              {project.huggingface && (
-                <a
-                  href={project.huggingface}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-accent hover:underline underline-offset-4 transition-colors duration-200"
-                >
-                  → Hugging Face
-                </a>
-              )}
-            </div>
+            <div className="fun-more">
+              <div className="space-y-2 pt-2">
+                {/* Quote */}
+                {project.quote && (
+                  <p className="text-[13.5px] italic text-secondary leading-snug">
+                    &ldquo;{project.quote}&rdquo;
+                  </p>
+                )}
 
-            {/* Divider — except last item */}
-            {i < funProjects.length - 1 && (
-              <div className="mt-10 sm:mt-12 h-px bg-foreground/5" />
-            )}
-          </article>
+                {/* Tech & Links on single line */}
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-mono text-muted pt-1">
+                  <span>{project.tech.join(" · ")}</span>
+
+                  {(project.live || project.github || project.huggingface) && (
+                    <span>·</span>
+                  )}
+
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent hover:text-accent-hover font-medium underline underline-offset-4 decoration-accent/40"
+                    >
+                      Live ↗
+                    </a>
+                  )}
+
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted hover:text-foreground underline underline-offset-4 decoration-border hover:decoration-foreground"
+                    >
+                      GitHub ↗
+                    </a>
+                  )}
+
+                  {project.huggingface && (
+                    <a
+                      href={project.huggingface}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted hover:text-foreground underline underline-offset-4 decoration-border hover:decoration-foreground"
+                    >
+                      Spaces ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

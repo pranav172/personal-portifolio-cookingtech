@@ -8,56 +8,56 @@ export function Nav() {
   const pathname = usePathname();
 
   const links = [
-    { href: '/', label: 'Home' },
-    { href: '/work', label: 'Projects' },
+    { href: '/work', label: 'Work' },
     { href: '/fun', label: 'Fun' },
-    { href: '/writing', label: 'Blogs' },
+    { href: '/writing', label: 'Writing' },
     { href: '/contact', label: 'Contact' },
   ];
 
-  // Match active route: exact for '/', prefix match for others
-  const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href);
+  const isActive = (href: string) => {
+    return pathname === href || pathname.startsWith(href + '/');
+  };
 
   return (
-    <nav className="relative py-4 px-4 sm:py-6 sm:px-6 max-w-3xl mx-auto">
-      <div className="flex items-center justify-between">
-        {/* Desktop Navigation */}
-        <div className="hidden sm:flex items-center gap-6">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-sm font-semibold transition-colors duration-200 ${
-                isActive(link.href)
-                  ? 'nav-active'
-                  : 'text-foreground hover:text-accent'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
+    <header className="w-full border-b border-border bg-background/95 sticky top-0 z-40 backdrop-blur-xs">
+      <div className="max-w-xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
+        <Link
+          href="/"
+          className="text-sm font-medium tracking-tight text-foreground hover:text-muted transition-colors duration-200"
+        >
+          Pranav Raj
+        </Link>
 
-        {/* Mobile Navigation */}
-        <div className="flex sm:hidden items-center gap-4">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-xs font-semibold transition-colors duration-200 ${
-                isActive(link.href)
-                  ? 'nav-active'
-                  : 'text-foreground hover:text-accent'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
+        <nav className="flex items-center gap-4 text-[13px] font-mono" aria-label="Main Navigation">
+          {links.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`transition-colors duration-180 ${
+                  active
+                    ? 'text-foreground font-medium underline underline-offset-4 decoration-accent'
+                    : 'text-secondary hover:text-foreground'
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
 
-        <ThemeToggle />
+          <Link
+            href="/resume"
+            className="text-secondary hover:text-foreground transition-colors duration-200"
+          >
+            Resume ↗
+          </Link>
+
+          <div className="h-3 w-px bg-border ml-1 hidden sm:block" />
+
+          <ThemeToggle />
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 }
