@@ -1,11 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import { projects } from "@/lib/projects";
 import { getLeetCode, getLeetCodeActivity, getLastCommit, getNextContest } from "@/lib/stats";
 import { LiveClock } from "@/components/LiveClock";
 import { SpotlightContainer } from "@/components/SpotlightContainer";
 import { InteractiveDotGrid } from "@/components/InteractiveDotGrid";
-import { HeroAvatar } from "@/components/HeroAvatar";
-import { TimeGreeting } from "@/components/TimeGreeting";
 
 export default async function Home() {
   const [leetcode, activity, lastCommit, nextContest] = await Promise.all([
@@ -27,16 +26,29 @@ export default async function Home() {
         {/* ── Intro with Avatar, Glow & Real-Time Single-Line Status ── */}
         <section className="space-y-4 stagger-1">
           <div className="flex items-center gap-4">
-            <HeroAvatar />
+            <div className="relative flex-shrink-0">
+              {/* Subtle ambient radial glow behind avatar */}
+              <div
+                className="absolute -inset-2 rounded-full bg-[radial-gradient(circle,rgba(110,231,183,0.22)_0%,transparent_70%)] blur-md pointer-events-none"
+                aria-hidden="true"
+              />
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border border-border avatar-tilt bg-surface">
+                <Image
+                  src="/pranav.webp"
+                  alt="Pranav Raj"
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 56px, 64px"
+                  className="object-cover"
+                />
+              </div>
+            </div>
 
             <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground flex items-center gap-2 hero-scroll-title">
-                  <span>Pranav Raj</span>
-                  <span className="wave-hand text-lg" aria-label="wave">👋</span>
-                </h1>
-                <TimeGreeting />
-              </div>
+              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground flex items-center gap-2 hero-scroll-title">
+                <span>Pranav Raj</span>
+                <span className="wave-hand text-lg" aria-label="wave">👋</span>
+              </h1>
 
               {/* Single-line header: ● Thu, 8 Oct · 17:54 IST (last commit on hover tooltip) */}
               <div
@@ -70,7 +82,7 @@ export default async function Home() {
               href="https://github.com/pranav172"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-1 rounded text-muted hover:text-foreground transition-colors duration-180"
+              className="p-1 rounded text-muted hover:text-accent transition-colors duration-180"
               aria-label="GitHub Profile"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -83,7 +95,7 @@ export default async function Home() {
               href="https://www.linkedin.com/in/pranav-raj-163230256/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-1 rounded text-muted hover:text-foreground transition-colors duration-180"
+              className="p-1 rounded text-muted hover:text-accent transition-colors duration-180"
               aria-label="LinkedIn Profile"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -96,7 +108,7 @@ export default async function Home() {
               href="https://x.com/Pranav_raj_18"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-1 rounded text-muted hover:text-foreground transition-colors duration-180"
+              className="p-1 rounded text-muted hover:text-accent transition-colors duration-180"
               aria-label="X Profile"
             >
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -106,7 +118,7 @@ export default async function Home() {
 
             <Link
               href="/resume"
-              className="text-[13px] font-mono text-muted hover:text-foreground transition-colors duration-180"
+              className="text-[13px] font-mono text-muted hover:text-accent transition-colors duration-180"
             >
               Resume ↗
             </Link>
@@ -123,7 +135,7 @@ export default async function Home() {
               href="https://leetcode.com/u/cookingDSA/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-mono text-muted hover:text-foreground transition-colors duration-180"
+              className="text-xs font-mono text-muted hover:text-accent transition-colors duration-180"
               translate="no"
             >
               @cookingDSA ↗
@@ -212,7 +224,7 @@ export default async function Home() {
             </h2>
             <Link
               href="/work"
-              className="text-xs font-mono text-muted hover:text-foreground transition-colors duration-180"
+              className="text-xs font-mono text-muted hover:text-accent transition-colors duration-180"
             >
               All projects ({projects.length}) →
             </Link>

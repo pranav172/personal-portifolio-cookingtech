@@ -2,11 +2,22 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { ThemeToggle } from './ThemeToggle';
 import { HeaderMusicToggle } from './HeaderMusicToggle';
 
 export function Nav() {
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 80);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const links = [
     { href: '/work', label: 'Work' },
@@ -19,12 +30,27 @@ export function Nav() {
     return pathname === href || pathname.startsWith(href + '/');
   };
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="hdr">
       <div className="hdr-inner">
         <Link
           href="/"
-          className={`logo ${pathname === '/' ? 'hero-scroll-logo' : ''} text-foreground hover:text-muted transition-colors`}
+          onClick={handleLogoClick}
+          className={`logo text-foreground hover:text-accent transition-all duration-250 cursor-pointer ${
+            pathname === '/'
+              ? scrolled
+                ? 'opacity-100 translate-y-0 pointer-events-auto'
+                : 'opacity-0 -translate-y-1.5 pointer-events-none'
+              : 'opacity-100 translate-y-0'
+          }`}
+          title="Pranav Raj (Click to scroll to top)"
         >
           Pranav Raj
         </Link>
@@ -39,8 +65,8 @@ export function Nav() {
                 aria-current={active ? 'page' : undefined}
                 className={`py-1 focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180 ${
                   active
-                    ? 'text-foreground font-medium underline underline-offset-4 decoration-accent'
-                    : 'text-secondary hover:text-foreground'
+                    ? 'text-accent font-medium underline underline-offset-4 decoration-accent'
+                    : 'text-secondary hover:text-accent'
                 }`}
               >
                 {link.label}
@@ -50,7 +76,7 @@ export function Nav() {
 
           <Link
             href="/resume"
-            className="py-1 text-secondary hover:text-foreground focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180"
+            className="py-1 text-secondary hover:text-accent focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180"
           >
             Resume ↗
           </Link>

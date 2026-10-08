@@ -29,7 +29,7 @@ export function Footer() {
               href="https://github.com/pranav172"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors"
+              className="hover:text-accent transition-colors duration-180"
             >
               GitHub
             </a>
@@ -37,7 +37,7 @@ export function Footer() {
               href="https://www.linkedin.com/in/pranav-raj-163230256/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors"
+              className="hover:text-accent transition-colors duration-180"
             >
               LinkedIn
             </a>
@@ -45,13 +45,13 @@ export function Footer() {
               href="https://x.com/Pranav_raj_18"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors"
+              className="hover:text-accent transition-colors duration-180"
             >
               X
             </a>
             <a
               href="mailto:rpranav1820@gmail.com"
-              className="hover:text-foreground transition-colors"
+              className="hover:text-accent transition-colors duration-180"
             >
               Email
             </a>
@@ -87,13 +87,6 @@ export function Footer() {
             <VisitorCount />
             <span className="hidden sm:inline text-border">·</span>
             <span className="hidden sm:inline text-muted/80">Graphite &amp; Mint</span>
-            <span className="hidden md:inline text-border">·</span>
-            <span
-              className="hidden md:inline text-muted/50 hover:text-accent transition-colors cursor-help select-none"
-              title="Easter egg: Type the Konami code (↑↑↓↓←→←→BA) or tap avatar 5 times"
-            >
-              ↑↑↓↓←→←→BA
-            </span>
           </div>
         </div>
       </div>
