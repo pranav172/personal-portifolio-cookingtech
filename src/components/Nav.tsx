@@ -2,33 +2,50 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeToggle } from './ThemeToggle';
-import { HeaderMusicToggle } from './HeaderMusicToggle';
+import { MusicToggle } from './MusicToggle';
 
-export function Nav() {
+const links = [
+  { href: '/work', label: 'Work' },
+  { href: '/fun', label: 'Fun' },
+  { href: '/writing', label: 'Writing' },
+  { href: '/contact', label: 'Contact' },
+];
+
+export function Header() {
   const pathname = usePathname();
-  const [hide, setHide] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
+  // Close sheet after navigating
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // Prevent background scrolling when sheet is open
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  // Hide on scroll down, show on scroll up
   useEffect(() => {
     let last = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
-      if (Math.abs(y - last) > 8) {
-        setHide(y > last && y > 100);
+      setScrolled(y > 8);
+      if (!open && Math.abs(y - last) > 8) {
+        setHidden(y > last && y > 120);
         last = y;
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const links = [
-    { href: '/work', label: 'Work' },
-    { href: '/fun', label: 'Fun' },
-    { href: '/writing', label: 'Writing' },
-    { href: '/contact', label: 'Contact' },
-  ];
+  }, [open]);
 
   const isActive = (href: string) => {
     return pathname === href || pathname.startsWith(href + '/');
@@ -42,69 +59,62 @@ export function Nav() {
   };
 
   return (
-    <>
-      <header className={`hdr ${hide ? 'hide' : ''}`}>
-        <div className="hdr-inner">
-          <Link
-            href="/"
-            onClick={handleLogoClick}
-            className="logo text-foreground hover:text-accent transition-all duration-200 cursor-pointer"
-            title="Pranav Raj (Scroll to top)"
+    <header className={`hdr ${hidden ? 'hide' : ''} ${scrolled ? 'scrolled' : ''} ${open ? 'open' : ''}`}>
+      <div className="hdr-in">
+        <Link href="/" onClick={handleLogoClick} className="mark" aria-label="Home">
+          pr<span>.</span>
+        </Link>
+
+        <nav className="nav" aria-label="Main">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              aria-current={isActive(l.href) ? 'page' : undefined}
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="hdr-end">
+          <ThemeToggle />
+          <button
+            className="burger"
+            type="button"
+            aria-label={open ? 'Close menu' : 'Menu'}
+            aria-expanded={open}
+            onClick={() => setOpen(!open)}
           >
-            Pranav Raj
-          </Link>
-
-          {/* Desktop inline nav */}
-          <nav className="nav nav-inline font-mono" aria-label="Main Navigation">
-            {links.map((link) => {
-              const active = isActive(link.href);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  aria-current={active ? 'page' : undefined}
-                  className={`py-1 focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180 ${
-                    active
-                      ? 'text-accent font-medium underline underline-offset-4 decoration-accent'
-                      : 'text-secondary hover:text-accent'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Header actions: Music, Theme, and Resume */}
-          <div className="hdr-actions">
-            <HeaderMusicToggle />
-            <ThemeToggle />
-            <Link
-              href="/resume"
-              className="hdr-resume text-secondary hover:text-accent focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180 font-mono text-[13px] py-1 px-1.5"
-            >
-              Resume ↗
-            </Link>
-          </div>
+            <i />
+            <i />
+          </button>
         </div>
-      </header>
+      </div>
 
-      {/* Floating bottom pill navigation for mobile */}
-      <nav className="nav-pill" aria-label="Mobile Navigation">
-        {links.map((link) => {
-          const active = isActive(link.href);
-          return (
+      <div className="sheet" aria-hidden={!open}>
+        <nav aria-label="Mobile Navigation">
+          {links.map((l, i) => (
             <Link
-              key={link.href}
-              href={link.href}
-              aria-current={active ? 'page' : undefined}
-              className={`transition-colors duration-150 ${active ? 'active' : ''}`}
+              key={l.href}
+              href={l.href}
+              style={{ transitionDelay: `${open ? 60 + i * 40 : 0}ms` }}
+              aria-current={isActive(l.href) ? 'page' : undefined}
             >
-              {link.label}
+              {l.label}
             </Link>
-          );
-        })}
-      </nav>
-    </>
+          ))}
+        </nav>
+        <div className="sheet-foot">
+          <MusicToggle />
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume ↗</a>
+          <a href="https://github.com/pranav172" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/pranav-raj-163230256/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://x.com/Pranav_raj_18" target="_blank" rel="noopener noreferrer">X</a>
+        </div>
+      </div>
+    </header>
   );
 }
+
+export { Header as Nav };

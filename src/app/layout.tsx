@@ -7,6 +7,7 @@ import { PageProgress } from "@/components/PageProgress";
 import { CommandPalette } from "@/components/CommandPalette";
 import { TerminalModal } from "@/components/TerminalModal";
 import { AudioProvider } from "@/components/AudioProvider";
+import { MusicFloatingChip } from "@/components/MusicToggle";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -147,6 +148,9 @@ export default function RootLayout({
             <Nav />
             <main id="main-content" className="flex-1 page-animate">{children}</main>
             <Footer />
+            <div className="music-float">
+              <MusicFloatingChip />
+            </div>
             <CommandPalette />
             <TerminalModal />
           </AudioProvider>

@@ -217,24 +217,33 @@ code, .font-mono {
   transform: scale(1.06) rotate(2deg);
 }
 
-/* Status dot pulse ring (beacon ping) */
-@keyframes ping-slow {
-  0% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  70% {
-    transform: scale(2.8);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(2.8);
-    opacity: 0;
-  }
+/* Status dot beacon with unclipped pulse ring */
+.dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+  overflow: visible;
 }
-
-.pulse-ring {
-  animation: ping-slow 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+.dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  animation: ping 2s ease-out infinite;
+}
+@keyframes ping {
+  from {
+    opacity: 0.6;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.4);
+  }
 }
 
 /* Staggered load-in */
@@ -429,74 +438,129 @@ code, .font-mono {
   }
 }
 
-/* ── Clean Single-Row Responsive Header (52px) ── */
+/* ── Header (Sticky, 3-Column Centered Nav, Hide-on-scroll) ── */
 .hdr {
   position: sticky;
   top: 0;
   z-index: 50;
-  height: 52px;
-  background: color-mix(in srgb, var(--background) 82%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s ease, background 0.3s, border-color 0.3s;
+  border-bottom: 1px solid transparent;
+}
+
+.hdr.scrolled {
+  background: color-mix(in srgb, var(--background) 78%, transparent);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-color: var(--border);
 }
 
 .hdr.hide {
   transform: translateY(-100%);
 }
 
-.hdr-inner {
-  max-width: 620px;
-  height: 52px;
-  margin: 0 auto;
-  padding: 0 16px;
-  display: flex;
+.hdr-in {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  height: 56px;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-.logo {
-  font-weight: 600;
-  font-size: 15.5px;
-  white-space: nowrap;
-  flex: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+.mark {
+  justify-self: start;
+  font: 600 18px var(--font-mono);
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  transition: opacity 0.2s;
 }
 
-/* On homepage when hero is in view, hide header logo */
-html[data-hero="in"] .logo {
-  opacity: 0;
-  transform: translateY(6px);
-  pointer-events: none;
+.mark:hover {
+  opacity: 0.8;
+}
+
+.mark span {
+  color: var(--accent);
 }
 
 .nav {
   display: flex;
-  align-items: center;
-  gap: 20px;
+  gap: 4px;
 }
 
 .nav a {
-  white-space: nowrap;
-  font-size: 13.5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--muted);
+  border-radius: 8px;
+  transition: color 0.2s;
 }
 
-.hdr-actions {
+.nav a:hover,
+.nav a[aria-current="page"] {
+  color: var(--foreground);
+}
+
+/* active underline that matches the Vercel look */
+.nav a[aria-current="page"] {
+  box-shadow: inset 0 -1.5px 0 var(--accent);
+  border-radius: 0;
+}
+
+.hdr-end {
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-.hdr-resume {
-  margin-left: 6px;
-  white-space: nowrap;
+.burger {
+  display: none;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  background: none;
+  border: 0;
+  cursor: pointer;
 }
 
-/* ── Mobile Floating Bottom Pill Navigation ── */
-.nav-pill {
+.burger i {
+  position: absolute;
+  left: 11px;
+  width: 18px;
+  height: 1.5px;
+  background: var(--foreground);
+  transition: transform 0.3s, top 0.3s;
+}
+
+.burger i:nth-child(1) {
+  top: 16px;
+}
+
+.burger i:nth-child(2) {
+  top: 23px;
+}
+
+.open .burger i:nth-child(1) {
+  top: 19.5px;
+  transform: rotate(45deg);
+}
+
+.open .burger i:nth-child(2) {
+  top: 19.5px;
+  transform: rotate(-45deg);
+}
+
+.sheet {
   display: none;
+}
+
+.music-float {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 40;
 }
 
 /* Contact table rows without box containers */
@@ -515,51 +579,84 @@ html[data-hero="in"] .logo {
   color: var(--accent);
 }
 
-@media (max-width: 640px) {
-  .nav-inline {
-    display: none !important;
+@media (max-width: 720px) {
+  .hdr-in {
+    grid-template-columns: 1fr auto;
+    height: 52px;
+    padding: 0 20px;
   }
 
-  .nav-pill {
+  .nav {
+    display: none;
+  }
+
+  .burger {
+    display: block;
+  }
+
+  .music-float {
+    display: none;
+  }
+
+  .sheet {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-    z-index: 60;
-    gap: 2px;
-    padding: 5px;
-    border-radius: 9999px;
-    background: color-mix(in srgb, var(--background) 80%, transparent);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--border);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
+    inset: 52px 0 0 0;
+    padding: 32px 24px calc(28px + env(safe-area-inset-bottom, 0px));
+    background: var(--background);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.25s, transform 0.25s, visibility 0.25s;
+    z-index: 49;
   }
 
-  .nav-pill a {
-    padding: 8px 14px;
-    border-radius: 9999px;
-    font-size: 13px;
-    font-family: var(--font-mono);
-    color: var(--muted);
-    touch-action: manipulation;
+  .open .sheet {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
   }
 
-  .nav-pill a:hover {
+  .sheet nav a {
+    display: block;
+    padding: 14px 0;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s, transform 0.35s;
     color: var(--foreground);
   }
 
-  .nav-pill a[aria-current="page"],
-  .nav-pill a.active {
-    color: var(--background) !important;
-    background: var(--accent) !important;
-    font-weight: 500;
+  .open .sheet nav a {
+    opacity: 1;
+    transform: none;
   }
 
-  /* Ensure bottom of content is not hidden by floating pill */
-  main {
-    padding-bottom: 96px;
+  .sheet nav a[aria-current="page"] {
+    color: var(--accent);
+  }
+
+  .sheet-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 22px;
+    font: 14px var(--font-mono);
+    color: var(--muted);
+  }
+
+  .sheet-foot a {
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+
+  .sheet-foot a:hover {
+    color: var(--foreground);
   }
 
   h1 {

@@ -5,7 +5,6 @@ import { getLeetCode, getLeetCodeActivity, getLastCommit, getNextContest } from 
 import { LiveClock } from "@/components/LiveClock";
 import { SpotlightContainer } from "@/components/SpotlightContainer";
 import { InteractiveDotGrid } from "@/components/InteractiveDotGrid";
-import { HeroSentinel } from "@/components/HeroSentinel";
 
 export default async function Home() {
   const [leetcode, activity, lastCommit, nextContest] = await Promise.all([
@@ -46,7 +45,6 @@ export default async function Home() {
             </div>
 
             <div className="min-w-0 relative">
-              <HeroSentinel />
               <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground flex items-center gap-2">
                 <span>Pranav Raj</span>
                 <span className="wave-hand text-lg" aria-label="wave">👋</span>
@@ -54,13 +52,10 @@ export default async function Home() {
 
               {/* Single-line header: ● Thu, 8 Oct · 17:54 IST (last commit on hover tooltip) */}
               <div
-                className="flex items-center gap-2 text-xs font-mono text-muted mt-1 whitespace-nowrap overflow-hidden cursor-default"
+                className="flex items-center gap-2.5 text-xs font-mono text-muted mt-1 whitespace-nowrap cursor-default"
                 title={lastCommit?.repo ? `Last commit to ${lastCommit.repo} (${lastCommit.relativeTime})` : undefined}
               >
-                <span className="relative flex h-2 w-2 items-center justify-center flex-shrink-0">
-                  <span className="pulse-ring absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-accent" />
-                </span>
+                <span className="dot" aria-hidden="true" />
                 <LiveClock />
               </div>
             </div>

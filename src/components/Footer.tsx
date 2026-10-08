@@ -55,6 +55,14 @@ export function Footer() {
             >
               Email
             </a>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-accent transition-colors duration-180"
+            >
+              Resume ↗
+            </a>
             <span>© {currentYear}</span>
           </div>
         </div>
