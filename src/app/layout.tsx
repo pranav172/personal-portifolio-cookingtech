@@ -7,6 +7,7 @@ import { PageProgress } from "@/components/PageProgress";
 import { CommandPalette } from "@/components/CommandPalette";
 import { TerminalModal } from "@/components/TerminalModal";
 import { AudioProvider } from "@/components/AudioProvider";
+import { EasterEgg } from "@/components/EasterEgg";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -149,8 +150,11 @@ export default function RootLayout({
             <Footer />
             <CommandPalette />
             <TerminalModal />
+            <EasterEgg />
           </AudioProvider>
         </ThemeProvider>
+        {/* Faint tactile film grain overlay */}
+        <div className="grain-overlay" aria-hidden="true" />
       </body>
     </html>
   );

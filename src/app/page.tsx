@@ -1,9 +1,11 @@
 import Link from "next/link";
-import Image from "next/image";
 import { projects } from "@/lib/projects";
 import { getLeetCode, getLeetCodeActivity, getLastCommit, getNextContest } from "@/lib/stats";
 import { LiveClock } from "@/components/LiveClock";
 import { SpotlightContainer } from "@/components/SpotlightContainer";
+import { InteractiveDotGrid } from "@/components/InteractiveDotGrid";
+import { HeroAvatar } from "@/components/HeroAvatar";
+import { TimeGreeting } from "@/components/TimeGreeting";
 
 export default async function Home() {
   const [leetcode, activity, lastCommit, nextContest] = await Promise.all([
@@ -18,39 +20,23 @@ export default async function Home() {
 
   return (
     <div className="relative min-h-[calc(100vh-3rem)]">
-      {/* ── Subtle background dot-grid that gracefully fades toward edges on wide displays ── */}
-      <div
-        className="pointer-events-none absolute inset-0 bg-dot-grid opacity-60"
-        aria-hidden="true"
-      />
+      {/* ── Background dot-grid that reacts to desktop cursor ── */}
+      <InteractiveDotGrid />
 
       <div className="relative max-w-xl mx-auto px-4 sm:px-6 py-16 sm:py-24 space-y-16">
         {/* ── Intro with Avatar, Glow & Real-Time Single-Line Status ── */}
         <section className="space-y-4 stagger-1">
           <div className="flex items-center gap-4">
-            <div className="relative flex-shrink-0">
-              {/* Subtle ambient radial glow behind avatar */}
-              <div
-                className="absolute -inset-2 rounded-full bg-[radial-gradient(circle,rgba(110,231,183,0.22)_0%,transparent_70%)] blur-md pointer-events-none"
-                aria-hidden="true"
-              />
-              <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border border-border avatar-tilt bg-surface">
-                <Image
-                  src="/pranav.webp"
-                  alt="Pranav Raj"
-                  fill
-                  priority
-                  sizes="(max-width: 640px) 56px, 64px"
-                  className="object-cover"
-                />
-              </div>
-            </div>
+            <HeroAvatar />
 
             <div className="min-w-0">
-              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground flex items-center gap-2">
-                <span>Pranav Raj</span>
-                <span className="wave-hand text-lg" aria-label="wave">👋</span>
-              </h1>
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground flex items-center gap-2 hero-scroll-title">
+                  <span>Pranav Raj</span>
+                  <span className="wave-hand text-lg" aria-label="wave">👋</span>
+                </h1>
+                <TimeGreeting />
+              </div>
 
               {/* Single-line header: ● Thu, 8 Oct · 17:54 IST (last commit on hover tooltip) */}
               <div

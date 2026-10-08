@@ -87,6 +87,13 @@ export function Footer() {
             <VisitorCount />
             <span className="hidden sm:inline text-border">·</span>
             <span className="hidden sm:inline text-muted/80">Graphite &amp; Mint</span>
+            <span className="hidden md:inline text-border">·</span>
+            <span
+              className="hidden md:inline text-muted/50 hover:text-accent transition-colors cursor-help select-none"
+              title="Easter egg: Type the Konami code (↑↑↓↓←→←→BA) or tap avatar 5 times"
+            >
+              ↑↑↓↓←→←→BA
+            </span>
           </div>
         </div>
       </div>

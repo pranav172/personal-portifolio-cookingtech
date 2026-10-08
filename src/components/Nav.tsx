@@ -24,7 +24,7 @@ export function Nav() {
       <div className="hdr-inner">
         <Link
           href="/"
-          className="logo text-foreground hover:text-muted transition-colors"
+          className={`logo ${pathname === '/' ? 'hero-scroll-logo' : ''} text-foreground hover:text-muted transition-colors`}
         >
           Pranav Raj
         </Link>
