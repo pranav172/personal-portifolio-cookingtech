@@ -3,37 +3,38 @@
 import { useEffect, useState } from 'react';
 
 export function LiveClock() {
-  const [time, setTime] = useState<string>('');
+  const [dateTime, setDateTime] = useState<string>('');
 
   useEffect(() => {
-    const formatTime = () => {
+    const tick = () => {
       const now = new Date();
-      // Format as HH:MM:SS in Asia/Kolkata (IST)
-      const istString = now.toLocaleTimeString('en-GB', {
+      const date = new Intl.DateTimeFormat('en-IN', {
         timeZone: 'Asia/Kolkata',
-        hour12: false,
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+      }).format(now);
+      const time = new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit',
-      });
-      return `${istString} IST`;
+        hour12: false,
+      }).format(now);
+      setDateTime(`${date} · ${time} IST`);
     };
 
-    setTime(formatTime());
-    const interval = setInterval(() => {
-      setTime(formatTime());
-    }, 1000);
-
+    tick();
+    const interval = setInterval(tick, 30000);
     return () => clearInterval(interval);
   }, []);
 
-  if (!time) {
-    return <span className="font-mono text-muted text-xs">--:--:-- IST</span>;
+  if (!dateTime) {
+    return <span className="font-mono text-muted text-xs">IST</span>;
   }
 
   return (
-    <span className="font-mono text-xs text-muted tabular-nums" title="Local Time (IST)">
-      {time}
+    <span className="font-mono text-xs text-muted tabular-nums">
+      {dateTime}
     </span>
   );
 }

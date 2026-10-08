@@ -1,6 +1,7 @@
 'use client';
 
 import { AmbientToggle } from './AmbientToggle';
+import { VisitorCount } from './VisitorCount';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -82,7 +83,11 @@ export function Footer() {
             <AmbientToggle />
           </div>
 
-          <span className="text-muted/80">Graphite &amp; Mint</span>
+          <div className="flex items-center gap-3">
+            <VisitorCount />
+            <span className="hidden sm:inline text-border">·</span>
+            <span className="hidden sm:inline text-muted/80">Graphite &amp; Mint</span>
+          </div>
         </div>
       </div>
     </footer>

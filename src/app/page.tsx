@@ -52,19 +52,15 @@ export default async function Home() {
                 <span className="wave-hand text-lg" aria-label="wave">👋</span>
               </h1>
 
-              {/* Single-line header: ● pushed yesterday · 05:57 IST (repo on hover tooltip) */}
-              <div className="flex items-center gap-2 text-xs font-mono text-muted mt-1 whitespace-nowrap overflow-hidden">
+              {/* Single-line header: ● Thu, 8 Oct · 17:54 IST (last commit on hover tooltip) */}
+              <div
+                className="flex items-center gap-2 text-xs font-mono text-muted mt-1 whitespace-nowrap overflow-hidden cursor-default"
+                title={lastCommit?.repo ? `Last commit to ${lastCommit.repo} (${lastCommit.relativeTime})` : undefined}
+              >
                 <span className="relative flex h-2 w-2 items-center justify-center flex-shrink-0">
                   <span className="pulse-ring absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-accent" />
                 </span>
-                <span
-                  className="cursor-default"
-                  title={lastCommit?.repo ? `Last pushed to ${lastCommit.repo}` : undefined}
-                >
-                  {lastCommit ? `pushed ${lastCommit.relativeTime}` : "building systems"}
-                </span>
-                <span>·</span>
                 <LiveClock />
               </div>
             </div>
