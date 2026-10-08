@@ -8,15 +8,19 @@ import { HeaderMusicToggle } from './HeaderMusicToggle';
 
 export function Nav() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
+  const [hide, setHide] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 80);
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (Math.abs(y - last) > 8) {
+        setHide(y > last && y > 100);
+        last = y;
+      }
     };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const links = [
@@ -38,55 +42,69 @@ export function Nav() {
   };
 
   return (
-    <header className="hdr">
-      <div className="hdr-inner">
-        <Link
-          href="/"
-          onClick={handleLogoClick}
-          className={`logo text-foreground hover:text-accent transition-all duration-250 cursor-pointer ${
-            pathname === '/'
-              ? scrolled
-                ? 'opacity-100 translate-y-0 pointer-events-auto'
-                : 'opacity-0 -translate-y-1.5 pointer-events-none'
-              : 'opacity-100 translate-y-0'
-          }`}
-          title="Pranav Raj (Click to scroll to top)"
-        >
-          Pranav Raj
-        </Link>
-
-        <nav className="nav font-mono" aria-label="Main Navigation">
-          {links.map((link) => {
-            const active = isActive(link.href);
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={active ? 'page' : undefined}
-                className={`py-1 focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180 ${
-                  active
-                    ? 'text-accent font-medium underline underline-offset-4 decoration-accent'
-                    : 'text-secondary hover:text-accent'
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-
+    <>
+      <header className={`hdr ${hide ? 'hide' : ''}`}>
+        <div className="hdr-inner">
           <Link
-            href="/resume"
-            className="py-1 text-secondary hover:text-accent focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180"
+            href="/"
+            onClick={handleLogoClick}
+            className="logo text-foreground hover:text-accent transition-all duration-200 cursor-pointer"
+            title="Pranav Raj (Scroll to top)"
           >
-            Resume ↗
+            Pranav Raj
           </Link>
-        </nav>
 
-        <div className="hdr-actions flex items-center gap-1 sm:gap-2">
-          <HeaderMusicToggle />
-          <ThemeToggle />
+          {/* Desktop inline nav */}
+          <nav className="nav nav-inline font-mono" aria-label="Main Navigation">
+            {links.map((link) => {
+              const active = isActive(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={active ? 'page' : undefined}
+                  className={`py-1 focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180 ${
+                    active
+                      ? 'text-accent font-medium underline underline-offset-4 decoration-accent'
+                      : 'text-secondary hover:text-accent'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Header actions: Music, Theme, and Resume */}
+          <div className="hdr-actions">
+            <HeaderMusicToggle />
+            <ThemeToggle />
+            <Link
+              href="/resume"
+              className="hdr-resume text-secondary hover:text-accent focus-visible:outline-2 focus-visible:outline-accent rounded-xs transition-colors duration-180 font-mono text-[13px] py-1 px-1.5"
+            >
+              Resume ↗
+            </Link>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Floating bottom pill navigation for mobile */}
+      <nav className="nav-pill" aria-label="Mobile Navigation">
+        {links.map((link) => {
+          const active = isActive(link.href);
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              aria-current={active ? 'page' : undefined}
+              className={`transition-colors duration-150 ${active ? 'active' : ''}`}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+      </nav>
+    </>
   );
 }

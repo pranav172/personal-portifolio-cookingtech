@@ -82,7 +82,7 @@ export function ThemeToggle() {
 
   return (
     <button
-      className="toggle text-muted hover:text-foreground transition-colors min-w-[36px] min-h-[36px] sm:min-w-[28px] sm:min-h-[28px] flex items-center justify-center p-1 rounded-md focus-visible:outline-2 focus-visible:outline-accent"
+      className="toggle text-muted hover:text-accent transition-colors min-w-[44px] min-h-[44px] sm:min-w-[32px] sm:min-h-[32px] flex items-center justify-center p-1 rounded-md focus-visible:outline-2 focus-visible:outline-accent cursor-pointer"
       onClick={onClick}
       type="button"
       aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}

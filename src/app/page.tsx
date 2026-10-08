@@ -5,6 +5,7 @@ import { getLeetCode, getLeetCodeActivity, getLastCommit, getNextContest } from 
 import { LiveClock } from "@/components/LiveClock";
 import { SpotlightContainer } from "@/components/SpotlightContainer";
 import { InteractiveDotGrid } from "@/components/InteractiveDotGrid";
+import { HeroSentinel } from "@/components/HeroSentinel";
 
 export default async function Home() {
   const [leetcode, activity, lastCommit, nextContest] = await Promise.all([
@@ -22,7 +23,7 @@ export default async function Home() {
       {/* ── Background dot-grid that reacts to desktop cursor ── */}
       <InteractiveDotGrid />
 
-      <div className="relative max-w-xl mx-auto px-4 sm:px-6 py-16 sm:py-24 space-y-16">
+      <div className="relative max-w-xl mx-auto px-4 sm:px-6 pt-6 sm:pt-20 pb-16 sm:pb-24 space-y-14 sm:space-y-16">
         {/* ── Intro with Avatar, Glow & Real-Time Single-Line Status ── */}
         <section className="space-y-4 stagger-1">
           <div className="flex items-center gap-4">
@@ -44,8 +45,9 @@ export default async function Home() {
               </div>
             </div>
 
-            <div className="min-w-0">
-              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground flex items-center gap-2 hero-scroll-title">
+            <div className="min-w-0 relative">
+              <HeroSentinel />
+              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground flex items-center gap-2">
                 <span>Pranav Raj</span>
                 <span className="wave-hand text-lg" aria-label="wave">👋</span>
               </h1>
@@ -204,11 +206,11 @@ export default async function Home() {
 
             {/* Next contest countdown line */}
             {nextContest && (
-              <div className="flex items-center justify-between text-[12px] font-mono text-muted pt-1">
-                <span className="truncate max-w-[340px]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between text-[12px] font-mono text-muted pt-1 gap-1">
+                <span className="break-words leading-snug" title={nextContest.name}>
                   Next: {nextContest.name}
                 </span>
-                <span className="text-accent font-medium flex-shrink-0">
+                <span className="text-accent font-medium flex-shrink-0 self-start sm:self-auto">
                   {nextContest.relativeTime}
                 </span>
               </div>
